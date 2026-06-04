@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HERMES Security Portable</title>
+  <link rel="stylesheet" href="./assets/style.css" />
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <main class="shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="logo">H</div><div><h1>HERMES</h1><p>Security Portable</p></div></div>
+      <button class="nav active" onclick="setPrompt('Monte um diagnóstico defensivo de rede.')">Diagnóstico</button>
+      <button class="nav" onclick="setPrompt('Monte um checklist seguro para troubleshooting de DNS.')">DNS</button>
+      <button class="nav" onclick="setPrompt('Monte um checklist seguro para troubleshooting de DHCP.')">DHCP</button>
+      <button class="nav" onclick="setPrompt('Crie um relatório técnico curto de suporte.')">Relatório</button>
+      <div class="panel"><strong>Status</strong><span id="status">verificando...</span></div>
+      <div class="panel"><strong>Modo</strong><span>Offline / Local</span></div>
+    </aside>
+    <section class="main">
+      <header class="hero">
+        <div><p class="eyebrow">Local AI / Infra / Offline</p><h2>Assistente portátil para diagnóstico defensivo</h2><p class="subtitle">Interface local para conversar com modelo GGUF via llama.cpp.</p></div>
+        <div class="badge">127.0.0.1</div>
+      </header>
+      <section class="stage">
+        <div class="output" id="output"><div class="message assistant"><strong>HERMES</strong><p>Pronto. Inicie o llama.cpp server e me pergunte algo.</p></div></div>
+        <form class="composer" id="chatForm">
+          <textarea id="message" placeholder="Digite sua pergunta para o HERMES..."></textarea>
+          <div class="actions"><button type="button" onclick="runNetwork()">Diagnóstico de rede</button><button type="submit">Enviar</button></div>
+        </form>
+      </section>
+    </section>
+  </main>
+  <script src="./assets/app.js"></script>
+</body>
+</html>
