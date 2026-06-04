@@ -1,0 +1,1 @@
+Coloque seu modelo GGUF aqui com o nome: model.gguf

@@ -1,0 +1,23 @@
+HERMES Security Portable
+
+1) Extraia esta pasta.
+2) Coloque o llama.cpp em: tools\llama.cpp\
+   Arquivos esperados:
+   - llama-server.exe
+   - llama-cli.exe
+3) Coloque um modelo GGUF em: models\model.gguf
+4) Rode:
+   scripts\windows\00-verificar-ambiente.bat
+5) Abra dois terminais:
+   Terminal 1: scripts\windows\01-iniciar-servidor-ia.bat
+   Terminal 2: scripts\windows\02-iniciar-hermes.bat
+
+Comandos dentro do HERMES:
+- ajuda
+- info
+- diagnostico rede
+- perguntar Explique DHCP de forma simples
+- relatorio
+- sair
+
+OBS: O pacote não inclui modelo GGUF nem llama.cpp por serem arquivos grandes/de terceiros.

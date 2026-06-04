@@ -1,0 +1,2 @@
+- perguntar Explique DHCP de forma simples
+- perguntar Monte checklist de falha de DNS
