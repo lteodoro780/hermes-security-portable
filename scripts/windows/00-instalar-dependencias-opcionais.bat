@@ -9,11 +9,7 @@ if not defined PYTHON_CMD (
   pause
   exit /b 1
 )
-set HERMES_WEB_HOST=127.0.0.1
-set HERMES_WEB_PORT=8765
-set HERMES_OPEN_BROWSER=1
-set HERMES_LLAMACPP_URL=http://127.0.0.1:8080/completion
-set PYTHONPATH=%CD%\src
-%PYTHON_CMD% -m hermes.hermes_web
+%PYTHON_CMD% -m pip install --upgrade pip
+%PYTHON_CMD% -m pip install -r requirements-optional.txt
 pause
 endlocal

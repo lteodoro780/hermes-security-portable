@@ -1,0 +1,4 @@
+# O HERMES 0.7.0 funciona sem estas bibliotecas.
+# Elas liberam coleta detalhada e leitura de PDF.
+psutil>=5.9,<7
+pypdf>=4,<7
