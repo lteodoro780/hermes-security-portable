@@ -3,32 +3,84 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>HERMES Security Portable</title>
+  <title>HERMES Security Portable 0.7.0</title>
   <link rel="stylesheet" href="./assets/style.css" />
 </head>
 <body>
   <div class="grid-bg"></div>
   <main class="shell">
     <aside class="sidebar">
-      <div class="brand"><div class="logo">H</div><div><h1>HERMES</h1><p>Security Portable</p></div></div>
-      <button class="nav active" onclick="setPrompt('Monte um diagnóstico defensivo de rede.')">Diagnóstico</button>
-      <button class="nav" onclick="setPrompt('Monte um checklist seguro para troubleshooting de DNS.')">DNS</button>
-      <button class="nav" onclick="setPrompt('Monte um checklist seguro para troubleshooting de DHCP.')">DHCP</button>
-      <button class="nav" onclick="setPrompt('Crie um relatório técnico curto de suporte.')">Relatório</button>
+      <div class="brand"><div class="logo">H</div><div><h1>HERMES</h1><p>Security Portable 0.7.0</p></div></div>
+      <button class="nav active" data-view="dashboard">Visão geral</button>
+      <button class="nav" data-view="chat">Assistente</button>
+      <button class="nav" data-view="knowledge">Conhecimento</button>
+      <button class="nav" data-view="alerts">Alertas</button>
       <div class="panel"><strong>Status</strong><span id="status">verificando...</span></div>
-      <div class="panel"><strong>Modo</strong><span>Offline / Local</span></div>
+      <div class="panel"><strong>Perfil</strong><span id="profile">detectando...</span></div>
+      <div class="panel"><strong>Privacidade</strong><span>Local • 127.0.0.1</span></div>
     </aside>
+
     <section class="main">
       <header class="hero">
-        <div><p class="eyebrow">Local AI / Infra / Offline</p><h2>Assistente portátil para diagnóstico defensivo</h2><p class="subtitle">Interface local para conversar com modelo GGUF via llama.cpp.</p></div>
-        <div class="badge">127.0.0.1</div>
+        <div>
+          <p class="eyebrow">Local AI / Infra / Offline</p>
+          <h2>Monitoramento e conhecimento técnico local</h2>
+          <p class="subtitle">Sem correções automáticas. Alertas aparecem somente após leituras consecutivas.</p>
+        </div>
+        <div class="badge">v0.7.0</div>
       </header>
-      <section class="stage">
-        <div class="output" id="output"><div class="message assistant"><strong>HERMES</strong><p>Pronto. Inicie o llama.cpp server e me pergunte algo.</p></div></div>
-        <form class="composer" id="chatForm">
-          <textarea id="message" placeholder="Digite sua pergunta para o HERMES..."></textarea>
-          <div class="actions"><button type="button" onclick="runNetwork()">Diagnóstico de rede</button><button type="submit">Enviar</button></div>
-        </form>
+
+      <section class="view active" id="view-dashboard">
+        <div class="cards metrics">
+          <article class="metric"><span>CPU</span><strong id="cpuValue">--%</strong><div class="bar"><i id="cpuBar"></i></div></article>
+          <article class="metric"><span>Memória</span><strong id="memoryValue">--%</strong><div class="bar"><i id="memoryBar"></i></div></article>
+          <article class="metric"><span>Disco</span><strong id="diskValue">--%</strong><div class="bar"><i id="diskBar"></i></div></article>
+          <article class="metric"><span>Coleta</span><strong id="monitorMode">--</strong><small id="monitorInterval">--</small></article>
+        </div>
+        <section class="stage chart-stage">
+          <div class="section-head"><div><p class="eyebrow">Histórico SQLite</p><h3>Última hora</h3></div><button id="sampleNow">Coletar agora</button></div>
+          <canvas id="metricChart" width="1000" height="300" aria-label="Histórico de CPU, memória e disco"></canvas>
+        </section>
+        <div class="cards two">
+          <section class="stage compact"><div class="section-head"><h3>Sistema</h3><button id="networkButton">Diagnóstico de rede</button></div><pre id="systemInfo">Carregando...</pre></section>
+          <section class="stage compact"><div class="section-head"><h3>Alertas recentes</h3></div><div id="alertPreview" class="list"></div></section>
+        </div>
+      </section>
+
+      <section class="view" id="view-chat">
+        <section class="stage chat-stage">
+          <div class="toolbar">
+            <label>Perfil <select id="assistantProfile"><option value="support">Suporte Técnico</option><option value="security">Segurança Defensiva</option><option value="network">Redes</option><option value="executive">Resumo Executivo</option></select></label>
+            <span id="chatMode">IA local + base de conhecimento</span>
+          </div>
+          <div class="output" id="output"><div class="message assistant"><strong>HERMES</strong><p>Pronto. Também consigo pesquisar a base local quando o modelo estiver desligado.</p></div></div>
+          <form class="composer" id="chatForm">
+            <textarea id="message" placeholder="Digite sua pergunta para o HERMES..."></textarea>
+            <div class="actions"><button type="button" data-prompt="Analise o estado atual do computador e diga quais métricas merecem atenção.">Usar métricas</button><button type="submit">Enviar</button></div>
+          </form>
+        </section>
+      </section>
+
+      <section class="view" id="view-knowledge">
+        <div class="cards two">
+          <section class="stage compact">
+            <div class="section-head"><div><p class="eyebrow">Base local</p><h3>Documentos indexados</h3></div><button id="reindexButton">Reindexar pasta</button></div>
+            <p class="muted">Arquivos em <code>knowledge/</code>: TXT, MD, JSON, LOG e PDF quando pypdf estiver instalado.</p>
+            <div id="knowledgeStatus" class="list"></div>
+          </section>
+          <section class="stage compact">
+            <div class="section-head"><h3>Busca sem IA</h3></div>
+            <form id="searchForm" class="search"><input id="searchQuery" placeholder="Termos da busca" /><button>Buscar</button></form>
+            <div id="searchResults" class="list"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="view-alerts">
+        <section class="stage">
+          <div class="section-head"><div><p class="eyebrow">Sem autocorreção</p><h3>Histórico de alertas</h3></div><button id="backupButton">Criar backup</button></div>
+          <div id="alertList" class="list"></div>
+        </section>
       </section>
     </section>
   </main>
