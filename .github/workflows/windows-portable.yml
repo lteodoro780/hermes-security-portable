@@ -1,0 +1,100 @@
+name: Windows Portable EXE
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - feat/web-ui-soc-dashboard
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows-x64:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    env:
+      APP_VERSION: "0.8.0"
+      EXE_NAME: "HERMES-Security-Portable-0.8.0.exe"
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Preparar Python x64
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          architecture: "x64"
+          cache: pip
+
+      - name: Instalar dependências de compilação
+        run: python -m pip install --upgrade pip pyinstaller psutil
+
+      - name: Executar verificações
+        shell: pwsh
+        run: |
+          python -m compileall -q src tests
+          python -m unittest discover -s tests -v
+          node --check web/assets/app.js
+
+      - name: Gerar executável único
+        run: python -m PyInstaller --noconfirm --clean HERMES-Portable.spec
+
+      - name: Testar inicialização e API local
+        shell: pwsh
+        run: |
+          $env:HERMES_OPEN_BROWSER = "0"
+          $process = Start-Process -FilePath ".\dist\$env:EXE_NAME" -ArgumentList "--web-only" -PassThru
+          try {
+            $healthy = $false
+            for ($attempt = 0; $attempt -lt 40; $attempt++) {
+              Start-Sleep -Milliseconds 500
+              try {
+                $health = Invoke-RestMethod -Uri "http://127.0.0.1:8765/api/health" -TimeoutSec 2
+                if ($health.ok -and $health.version -eq $env:APP_VERSION) {
+                  $healthy = $true
+                  break
+                }
+              } catch {
+              }
+              if ($process.HasExited) {
+                throw "O executável encerrou antes do teste de saúde. Código: $($process.ExitCode)"
+              }
+            }
+            if (-not $healthy) {
+              throw "A API local não ficou pronta no tempo esperado."
+            }
+          } finally {
+            if (-not $process.HasExited) {
+              Stop-Process -Id $process.Id -Force
+            }
+          }
+
+      - name: Montar pacote de teste externo
+        shell: pwsh
+        run: |
+          $folder = "release\HERMES-Security-Portable-$env:APP_VERSION-Windows-x64"
+          New-Item -ItemType Directory -Force -Path $folder | Out-Null
+          @("config", "data", "models", "reports", "tools") | ForEach-Object {
+            New-Item -ItemType Directory -Force -Path "$folder\$_" | Out-Null
+          }
+          Copy-Item "dist\$env:EXE_NAME" "$folder\$env:EXE_NAME"
+          Copy-Item "COMECE-AQUI-EXE.txt" "$folder\COMECE-AQUI.txt"
+          Compress-Archive -Path "$folder\*" -DestinationPath "release\HERMES-Security-Portable-$env:APP_VERSION-Windows-x64.zip" -CompressionLevel Optimal
+          Get-FileHash "dist\$env:EXE_NAME" -Algorithm SHA256 | ForEach-Object {
+            "$($_.Hash.ToLower())  $env:EXE_NAME" | Set-Content "release\SHA256SUMS.txt" -Encoding ascii
+          }
+
+      - name: Publicar artefatos do Windows
+        uses: actions/upload-artifact@v4
+        with:
+          name: HERMES-Security-Portable-0.8.0-Windows-x64
+          path: |
+            dist/HERMES-Security-Portable-0.8.0.exe
+            release/HERMES-Security-Portable-0.8.0-Windows-x64.zip
+            release/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14

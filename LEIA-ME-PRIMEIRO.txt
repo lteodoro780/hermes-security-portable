@@ -1,16 +1,17 @@
 HERMES Security Portable
 
-1) Extraia esta pasta.
-2) Coloque o llama.cpp em: tools\llama.cpp\
-   Arquivos esperados:
-   - llama-server.exe
-   - llama-cli.exe
-3) Coloque um modelo GGUF em: models\model.gguf
-4) Rode:
-   scripts\windows\00-verificar-ambiente.bat
-5) Abra dois terminais:
-   Terminal 1: scripts\windows\01-iniciar-servidor-ia.bat
-   Terminal 2: scripts\windows\02-iniciar-hermes.bat
+1) Extraia todo o arquivo ZIP.
+2) Execute INSTALAR-HERMES.bat.
+3) Execute CONFIGURAR-IA.bat e escolha o perfil Balanceado.
+4) Execute INICIAR-HERMES.bat.
+
+A interface estará em http://127.0.0.1:8765.
+Ela funciona em modo diagnostico mesmo sem modelo de IA.
+
+Para habilitar o chat local, use CONFIGURAR-IA.bat ou leia CONFIGURAR-IA-LOCAL.txt.
+Para instrucoes detalhadas, leia COMECE-AQUI.txt.
+
+CLI classica: scripts\windows\02-iniciar-hermes.bat.
 
 Comandos dentro do HERMES:
 - ajuda
@@ -20,4 +21,28 @@ Comandos dentro do HERMES:
 - relatorio
 - sair
 
-OBS: O pacote não inclui modelo GGUF nem llama.cpp por serem arquivos grandes/de terceiros.
+PERFIL RECOMENDADO PARA 16 GB: Balanceado, Qwen3 4B Q4_K_M.
+
+NA INTERFACE 0.8.0:
+- Central de Incidentes vincula alertas, snapshot, checklist e linha do tempo.
+- Incidentes podem ser exportados em HTML/PDF e analisados pela IA local.
+- Avisos do Windows sao opcionais e exigem permissao.
+- Backup e restauracao ficam em Configuracoes.
+- Monitoramento registra CPU, memoria, disco e rede enquanto estiver ativado.
+- Grafico, medias, picos e alertas ficam somente na pasta portatil.
+- Limites e quantidade de coletas para confirmacao podem ser ajustados.
+- Alertas podem ser marcados como vistos e o historico pode ser apagado.
+- Nenhuma correcao ou comando e executado automaticamente pelo monitor.
+- Base Local importa TXT, MD, JSON, LOG e relatorios HERMES.
+- Buscar sem IA funciona mesmo com o modelo desligado.
+- Perguntar a IA responde com fontes locais numeradas.
+- Colecoes e selecao de documentos controlam o escopo da consulta.
+- Compare dois relatorios para medir a evolucao.
+- Fixe uma coleta como referencia.
+- Gere um plano seguro sem executar correcoes automaticamente.
+- Configuracoes permite baixar e continuar modelos.
+- Relatorios possui Analisar com IA e Exportar HTML.
+- Assistente IA guarda o historico somente nesta pasta.
+- Teste de desempenho mede o modelo ou estima o hardware.
+
+OBS: O ZIP não inclui modelo GGUF nem llama.cpp por serem arquivos grandes/de terceiros.

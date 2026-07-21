@@ -1,19 +1,11 @@
 @echo off
+setlocal
 cd /d "%~dp0..\.."
-set LLAMA_SERVER=tools\llama.cpp\llama-server.exe
-set MODEL=models\model.gguf
-
-if not exist "%LLAMA_SERVER%" (
-  echo [ERRO] Falta %LLAMA_SERVER%
-  pause
-  exit /b 1
+set "PYTHONUTF8=1"
+if exist ".venv\Scripts\python.exe" (
+  ".venv\Scripts\python.exe" src\hermes\hermes_launcher.py --ai-only
+) else (
+  python src\hermes\hermes_launcher.py --ai-only
 )
-
-if not exist "%MODEL%" (
-  echo [ERRO] Falta %MODEL%
-  pause
-  exit /b 1
-)
-
-"%LLAMA_SERVER%" -m "%MODEL%" --host 127.0.0.1 --port 8080
 pause
+endlocal

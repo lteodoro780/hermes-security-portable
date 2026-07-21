@@ -1,1 +1,8 @@
-Coloque seu modelo GGUF aqui com o nome: model.gguf
+MODELOS RECONHECIDOS PELO HERMES 0.8.0
+
+Qwen3-1.7B-Q8_0.gguf      -> perfil Rapido
+Qwen3-4B-Q4_K_M.gguf      -> perfil Balanceado
+Qwen3-8B-Q4_K_M.gguf      -> perfil Qualidade
+model.gguf                -> modelo personalizado/legado
+
+O metodo mais simples e executar CONFIGURAR-IA.bat na pasta principal.

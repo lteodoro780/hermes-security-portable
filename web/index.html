@@ -2,88 +2,684 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>HERMES Security Portable 0.7.0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#07111f" />
+  <title>HERMES Security Portable</title>
   <link rel="stylesheet" href="./assets/style.css" />
 </head>
 <body>
-  <div class="grid-bg"></div>
-  <main class="shell">
-    <aside class="sidebar">
-      <div class="brand"><div class="logo">H</div><div><h1>HERMES</h1><p>Security Portable 0.7.0</p></div></div>
-      <button class="nav active" data-view="dashboard">Visão geral</button>
-      <button class="nav" data-view="chat">Assistente</button>
-      <button class="nav" data-view="knowledge">Conhecimento</button>
-      <button class="nav" data-view="alerts">Alertas</button>
-      <div class="panel"><strong>Status</strong><span id="status">verificando...</span></div>
-      <div class="panel"><strong>Perfil</strong><span id="profile">detectando...</span></div>
-      <div class="panel"><strong>Privacidade</strong><span>Local • 127.0.0.1</span></div>
+  <svg class="icon-sprite" aria-hidden="true">
+    <symbol id="icon-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="icon-scan" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4M11 8v6M8 11h6M4 4v3M4 4h3M20 4h-3M20 4v3M4 20v-3M4 20h3"/></symbol>
+    <symbol id="icon-brain" viewBox="0 0 24 24"><path d="M9.5 4.5A3 3 0 0 0 4 6.2 3.5 3.5 0 0 0 3.5 13 3.5 3.5 0 0 0 7 17.5 3 3 0 0 0 12 19V5a3 3 0 0 0-2.5-.5ZM14.5 4.5A3 3 0 0 1 20 6.2a3.5 3.5 0 0 1 .5 6.8 3.5 3.5 0 0 1-3.5 4.5A3 3 0 0 1 12 19V5a3 3 0 0 1 2.5-.5Z"/><path d="M7 9h2M15 9h2M7.5 14.5H10M14 14.5h2.5"/></symbol>
+    <symbol id="icon-report" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5M9 12h6M9 16h6"/></symbol>
+    <symbol id="icon-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.04 1.56V21h-4v-.08A1.7 1.7 0 0 0 8.96 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15.04 1.7 1.7 0 0 0 3.08 14H3v-4h.08A1.7 1.7 0 0 0 4.6 8.96a1.7 1.7 0 0 0-.34-1.87l-.06-.06L7.03 4.2l.06.06a1.7 1.7 0 0 0 1.87.34A1.7 1.7 0 0 0 10 3.08V3h4v.08a1.7 1.7 0 0 0 1.04 1.52 1.7 1.7 0 0 0 1.87-.34l.06-.06 2.83 2.83-.06.06a1.7 1.7 0 0 0-.34 1.87A1.7 1.7 0 0 0 20.92 10H21v4h-.08A1.7 1.7 0 0 0 19.4 15Z"/></symbol>
+    <symbol id="icon-cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></symbol>
+    <symbol id="icon-memory" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 10v4M11 10v4M15 10v4M19 10v4M6 17v3M10 17v3M14 17v3M18 17v3"/></symbol>
+    <symbol id="icon-disk" viewBox="0 0 24 24"><path d="M5 3h14l2 5v12H3V8z"/><path d="M3 8h18M8 16h.01M12 16h6"/></symbol>
+    <symbol id="icon-network" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4M7 10h2l2-3 3 6 2-3h2"/></symbol>
+    <symbol id="icon-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="icon-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="icon-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.1 9A7 7 0 0 1 18 6l2 2M17.9 15A7 7 0 0 1 6 18l-2-2"/></symbol>
+    <symbol id="icon-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4zM22 2 11 13"/></symbol>
+    <symbol id="icon-terminal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/></symbol>
+    <symbol id="icon-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+    <symbol id="icon-knowledge" viewBox="0 0 24 24"><path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H11v18H7.5A3.5 3.5 0 0 0 4 23zM20 5.5A3.5 3.5 0 0 0 16.5 2H13v18h3.5A3.5 3.5 0 0 1 20 23z"/></symbol>
+    <symbol id="icon-folder" viewBox="0 0 24 24"><path d="M3 6h7l2 2h9v11H3z"/></symbol>
+    <symbol id="icon-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></symbol>
+    <symbol id="icon-activity" viewBox="0 0 24 24"><path d="M3 12h4l2.5-7 5 14 2.5-7h4"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></symbol>
+    <symbol id="icon-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 3 20 6v5c0 5.2-3.3 8.5-8 10-4.7-1.5-8-4.8-8-10V6z"/><path d="M12 8v5M12 17h.01"/></symbol>
+    <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></symbol>
+  </svg>
+
+  <div class="ambient-grid" aria-hidden="true"></div>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="icon-button menu-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">
+        <svg><use href="#icon-menu"></use></svg>
+      </button>
+
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">H</div>
+        <div class="brand-copy">
+          <strong>HERMES</strong>
+          <span>Security Portable</span>
+        </div>
+      </div>
+
+      <div class="topbar-statuses" aria-label="Status dos serviços">
+        <span class="status-pill is-checking" id="llamaStatus">
+          <span class="status-dot"></span>
+          <span>IA verificando</span>
+        </span>
+        <span class="status-pill is-checking monitor-top-status" id="monitorTopStatus">
+          <span class="status-dot"></span>
+          <span>Monitor parado</span>
+        </span>
+        <span class="status-pill is-local">
+          <span class="offline-symbol">⌁</span>
+          <span>Modo offline</span>
+        </span>
+      </div>
+
+      <div class="topbar-meta">
+        <time id="clock" datetime="">--:--:--</time>
+        <span class="topbar-divider"></span>
+        <span class="local-label"><svg><use href="#icon-network"></use></svg> Sistema local</span>
+      </div>
+    </header>
+
+    <aside class="sidebar" id="sidebar">
+      <nav class="main-nav" aria-label="Navegação principal">
+        <button class="nav-item is-active" type="button" data-view="overview" aria-current="page">
+          <svg><use href="#icon-grid"></use></svg><span>Visão Geral</span>
+        </button>
+        <button class="nav-item" type="button" data-view="monitor">
+          <svg><use href="#icon-activity"></use></svg><span>Monitoramento</span>
+          <span class="nav-count monitor-nav-count" id="monitorAlertCount">0</span>
+        </button>
+        <button class="nav-item" type="button" data-view="incidents">
+          <svg><use href="#icon-shield"></use></svg><span>Incidentes</span>
+          <span class="nav-count" id="incidentCount">0</span>
+        </button>
+        <button class="nav-item" type="button" data-view="diagnostics">
+          <svg><use href="#icon-scan"></use></svg><span>Diagnósticos</span>
+        </button>
+        <button class="nav-item" type="button" data-view="assistant">
+          <svg><use href="#icon-brain"></use></svg><span>Assistente IA</span>
+        </button>
+        <button class="nav-item" type="button" data-view="knowledge">
+          <svg><use href="#icon-knowledge"></use></svg><span>Base Local</span>
+          <span class="nav-count" id="knowledgeCount">0</span>
+        </button>
+        <button class="nav-item" type="button" data-view="reports">
+          <svg><use href="#icon-report"></use></svg><span>Relatórios</span>
+          <span class="nav-count" id="reportCount">0</span>
+        </button>
+        <button class="nav-item" type="button" data-view="settings">
+          <svg><use href="#icon-settings"></use></svg><span>Configurações</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-spacer"></div>
+
+      <section class="host-card" aria-labelledby="hostCardTitle">
+        <div class="host-icon"><svg><use href="#icon-network"></use></svg></div>
+        <div>
+          <strong id="hostCardTitle">Host local</strong>
+          <span id="hostOs">Carregando sistema…</span>
+          <small id="appVersion">HERMES</small>
+        </div>
+        <span class="host-dot" id="webStatusDot" title="Servidor web"></span>
+      </section>
     </aside>
 
-    <section class="main">
-      <header class="hero">
-        <div>
-          <p class="eyebrow">Local AI / Infra / Offline</p>
-          <h2>Monitoramento e conhecimento técnico local</h2>
-          <p class="subtitle">Sem correções automáticas. Alertas aparecem somente após leituras consecutivas.</p>
-        </div>
-        <div class="badge">v0.7.0</div>
-      </header>
+    <button class="sidebar-backdrop" id="sidebarBackdrop" type="button" aria-label="Fechar menu"></button>
 
-      <section class="view active" id="view-dashboard">
-        <div class="cards metrics">
-          <article class="metric"><span>CPU</span><strong id="cpuValue">--%</strong><div class="bar"><i id="cpuBar"></i></div></article>
-          <article class="metric"><span>Memória</span><strong id="memoryValue">--%</strong><div class="bar"><i id="memoryBar"></i></div></article>
-          <article class="metric"><span>Disco</span><strong id="diskValue">--%</strong><div class="bar"><i id="diskBar"></i></div></article>
-          <article class="metric"><span>Coleta</span><strong id="monitorMode">--</strong><small id="monitorInterval">--</small></article>
-        </div>
-        <section class="stage chart-stage">
-          <div class="section-head"><div><p class="eyebrow">Histórico SQLite</p><h3>Última hora</h3></div><button id="sampleNow">Coletar agora</button></div>
-          <canvas id="metricChart" width="1000" height="300" aria-label="Histórico de CPU, memória e disco"></canvas>
-        </section>
-        <div class="cards two">
-          <section class="stage compact"><div class="section-head"><h3>Sistema</h3><button id="networkButton">Diagnóstico de rede</button></div><pre id="systemInfo">Carregando...</pre></section>
-          <section class="stage compact"><div class="section-head"><h3>Alertas recentes</h3></div><div id="alertPreview" class="list"></div></section>
-        </div>
-      </section>
-
-      <section class="view" id="view-chat">
-        <section class="stage chat-stage">
-          <div class="toolbar">
-            <label>Perfil <select id="assistantProfile"><option value="support">Suporte Técnico</option><option value="security">Segurança Defensiva</option><option value="network">Redes</option><option value="executive">Resumo Executivo</option></select></label>
-            <span id="chatMode">IA local + base de conhecimento</span>
+    <main class="workspace">
+      <section class="view is-active" id="view-overview" data-view-panel="overview" aria-labelledby="overviewTitle">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">Monitoramento local</p>
+            <h1 id="overviewTitle">Visão Geral</h1>
+            <p>Central de diagnóstico defensivo do dispositivo.</p>
           </div>
-          <div class="output" id="output"><div class="message assistant"><strong>HERMES</strong><p>Pronto. Também consigo pesquisar a base local quando o modelo estiver desligado.</p></div></div>
-          <form class="composer" id="chatForm">
-            <textarea id="message" placeholder="Digite sua pergunta para o HERMES..."></textarea>
-            <div class="actions"><button type="button" data-prompt="Analise o estado atual do computador e diga quais métricas merecem atenção.">Usar métricas</button><button type="submit">Enviar</button></div>
-          </form>
-        </section>
+          <button class="button button-primary" type="button" data-start-diagnostic="full">
+            <svg><use href="#icon-plus"></use></svg>
+            Novo diagnóstico
+          </button>
+        </div>
+
+        <div class="overview-top-grid">
+          <article class="panel core-panel">
+            <div class="panel-label">Núcleo HERMES</div>
+            <div class="core-visual" id="coreVisual" data-state="checking" aria-label="Estado do núcleo HERMES">
+              <span class="core-orbit orbit-one"></span>
+              <span class="core-orbit orbit-two"></span>
+              <span class="core-orbit orbit-three"></span>
+              <span class="core-letter">H</span>
+            </div>
+            <div class="core-state">
+              <span class="core-state-icon"><svg><use href="#icon-check"></use></svg></span>
+              <div><strong id="coreStateTitle">Verificando sistema</strong><span id="coreStateText">Aguarde um instante</span></div>
+            </div>
+          </article>
+
+          <div class="metrics-grid">
+            <article class="panel metric-card">
+              <div class="metric-heading"><span class="metric-icon"><svg><use href="#icon-cpu"></use></svg></span><strong>CPU</strong></div>
+              <div class="metric-ring" id="cpuRing" style="--value:0"><span id="cpuValue">—</span></div>
+              <span class="metric-caption">Uso atual</span>
+              <strong class="metric-detail" id="cpuDetail">Aguardando métricas</strong>
+            </article>
+            <article class="panel metric-card">
+              <div class="metric-heading"><span class="metric-icon"><svg><use href="#icon-memory"></use></svg></span><strong>Memória</strong></div>
+              <div class="metric-ring" id="memoryRing" style="--value:0"><span id="memoryValue">—</span></div>
+              <span class="metric-caption">Uso atual</span>
+              <strong class="metric-detail" id="memoryDetail">Aguardando métricas</strong>
+            </article>
+            <article class="panel metric-card">
+              <div class="metric-heading"><span class="metric-icon"><svg><use href="#icon-disk"></use></svg></span><strong>Disco</strong></div>
+              <div class="metric-ring" id="diskRing" style="--value:0"><span id="diskValue">—</span></div>
+              <span class="metric-caption">Uso atual</span>
+              <strong class="metric-detail" id="diskDetail">Aguardando métricas</strong>
+            </article>
+            <article class="panel metric-card network-card">
+              <div class="metric-heading"><span class="metric-icon"><svg><use href="#icon-network"></use></svg></span><strong>Rede</strong></div>
+              <div class="network-stat"><span class="network-arrow is-up">↑</span><strong id="networkUp">—</strong></div>
+              <div class="network-stat"><span class="network-arrow is-down">↓</span><strong id="networkDown">—</strong></div>
+              <span class="metric-caption">Atividade atual</span>
+              <strong class="metric-detail" id="networkDetail">Interface local</strong>
+            </article>
+          </div>
+        </div>
+
+        <div class="overview-bottom-grid">
+          <article class="panel alerts-panel">
+            <div class="panel-header">
+              <div><span class="panel-header-icon"><svg><use href="#icon-bell"></use></svg></span><h2>Alertas recentes</h2></div>
+              <button class="text-button" type="button" data-navigate="reports">Ver todos <svg><use href="#icon-arrow"></use></svg></button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Serviço</th><th>Severidade</th><th>Mensagem</th><th>Detectado em</th></tr></thead>
+                <tbody id="alertsTable">
+                  <tr class="empty-row"><td colspan="4">Execute um diagnóstico para coletar alertas.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="panel-footer"><span id="alertsSummary">Nenhum diagnóstico carregado</span></div>
+          </article>
+
+          <article class="panel latest-panel">
+            <div class="panel-header">
+              <div><span class="panel-header-icon"><svg><use href="#icon-report"></use></svg></span><h2>Último diagnóstico</h2></div>
+            </div>
+            <div class="latest-empty" id="latestEmpty">
+              <span class="empty-icon"><svg><use href="#icon-scan"></use></svg></span>
+              <strong>Nenhum diagnóstico</strong>
+              <p>Inicie uma verificação para criar o primeiro relatório.</p>
+            </div>
+            <div class="latest-content" id="latestContent" hidden>
+              <div class="completion-line"><span><svg><use href="#icon-check"></use></svg></span><strong>Concluído</strong></div>
+              <dl class="summary-list">
+                <div><dt>Tipo</dt><dd id="latestType">—</dd></div>
+                <div><dt>Concluído em</dt><dd id="latestDate">—</dd></div>
+                <div><dt>Duração</dt><dd id="latestDuration">—</dd></div>
+                <div><dt>Verificações</dt><dd id="latestChecks">—</dd></div>
+                <div><dt>Alertas</dt><dd class="alert-number" id="latestAlerts">—</dd></div>
+              </dl>
+              <button class="button button-secondary button-block" id="openLatestReport" type="button">
+                <svg><use href="#icon-report"></use></svg> Ver relatório completo
+              </button>
+            </div>
+          </article>
+        </div>
       </section>
 
-      <section class="view" id="view-knowledge">
-        <div class="cards two">
-          <section class="stage compact">
-            <div class="section-head"><div><p class="eyebrow">Base local</p><h3>Documentos indexados</h3></div><button id="reindexButton">Reindexar pasta</button></div>
-            <p class="muted">Arquivos em <code>knowledge/</code>: TXT, MD, JSON, LOG e PDF quando pypdf estiver instalado.</p>
-            <div id="knowledgeStatus" class="list"></div>
+      <section class="view" id="view-monitor" data-view-panel="monitor" aria-labelledby="monitorTitle" hidden>
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">Telemetria privada em tempo real</p>
+            <h1 id="monitorTitle">Monitoramento Contínuo</h1>
+            <p>Acompanhe recursos e receba alertas locais enquanto o HERMES estiver aberto.</p>
+          </div>
+          <div class="page-heading-actions monitor-heading-actions">
+            <span class="monitor-mode-badge is-stopped" id="monitorModeBadge">Parado</span>
+            <button class="button button-ghost" id="enableNotifications" type="button"><svg><use href="#icon-bell"></use></svg> Ativar avisos</button>
+            <button class="button button-ghost" id="refreshMonitor" type="button"><svg><use href="#icon-refresh"></use></svg> Atualizar</button>
+            <button class="button button-primary" id="startMonitor" type="button"><svg><use href="#icon-play"></use></svg> Iniciar monitoramento</button>
+            <button class="button button-secondary" id="stopMonitor" type="button" hidden><svg><use href="#icon-pause"></use></svg> Pausar</button>
+          </div>
+        </div>
+
+        <div class="monitor-summary-grid">
+          <article class="panel monitor-state-card" id="monitorStateCard" data-state="stopped">
+            <div class="monitor-state-heading">
+              <span class="monitor-live-dot"></span>
+              <div><span class="panel-label">Estado da coleta</span><h2 id="monitorStateTitle">Monitor parado</h2></div>
+            </div>
+            <p id="monitorStateText">Ative quando quiser registrar o histórico local.</p>
+            <dl class="monitor-state-details">
+              <div><dt>Última coleta</dt><dd id="monitorLastSample">—</dd></div>
+              <div><dt>Amostras</dt><dd id="monitorSampleCount">0</dd></div>
+              <div><dt>Armazenamento</dt><dd id="monitorStorage">0 B</dd></div>
+            </dl>
+          </article>
+
+          <article class="panel monitor-resource-card" data-resource="cpu">
+            <div class="monitor-resource-heading"><span class="metric-icon"><svg><use href="#icon-cpu"></use></svg></span><span>CPU</span><strong id="monitorCpuValue">—</strong></div>
+            <div class="monitor-resource-track"><span id="monitorCpuBar"></span></div>
+            <div class="monitor-resource-meta"><span id="monitorCpuAverage">Média 24 h: —</span><span id="monitorCpuPeak">Pico: —</span></div>
+          </article>
+
+          <article class="panel monitor-resource-card" data-resource="memory">
+            <div class="monitor-resource-heading"><span class="metric-icon"><svg><use href="#icon-memory"></use></svg></span><span>Memória</span><strong id="monitorMemoryValue">—</strong></div>
+            <div class="monitor-resource-track"><span id="monitorMemoryBar"></span></div>
+            <div class="monitor-resource-meta"><span id="monitorMemoryAverage">Média 24 h: —</span><span id="monitorMemoryPeak">Pico: —</span></div>
+          </article>
+
+          <article class="panel monitor-resource-card" data-resource="disk">
+            <div class="monitor-resource-heading"><span class="metric-icon"><svg><use href="#icon-disk"></use></svg></span><span>Disco</span><strong id="monitorDiskValue">—</strong></div>
+            <div class="monitor-resource-track"><span id="monitorDiskBar"></span></div>
+            <div class="monitor-resource-meta"><span id="monitorDiskAverage">Média 24 h: —</span><span id="monitorDiskPeak">Pico: —</span></div>
+          </article>
+        </div>
+
+        <div class="monitor-workbench">
+          <section class="panel monitor-chart-panel" aria-labelledby="monitorChartTitle">
+            <div class="panel-header monitor-chart-heading">
+              <div><span class="panel-header-icon"><svg><use href="#icon-activity"></use></svg></span><div><h2 id="monitorChartTitle">Histórico de utilização</h2><p id="monitorChartRange">Aguardando a primeira coleta</p></div></div>
+              <div class="monitor-chart-legend" aria-label="Legenda do gráfico"><span class="series-cpu">CPU</span><span class="series-memory">Memória</span><span class="series-disk">Disco</span></div>
+            </div>
+            <div class="monitor-chart-wrap"><canvas id="monitorChart" width="900" height="330" aria-label="Gráfico de CPU, memória e disco"></canvas><div class="monitor-chart-empty" id="monitorChartEmpty">Inicie o monitoramento para formar o histórico.</div></div>
+            <div class="monitor-network-strip"><span><b>↑ Envio</b><strong id="monitorNetworkUp">—</strong></span><span><b>↓ Recebimento</b><strong id="monitorNetworkDown">—</strong></span><small>Taxas agregadas do computador, sem inspecionar o conteúdo da rede.</small></div>
           </section>
-          <section class="stage compact">
-            <div class="section-head"><h3>Busca sem IA</h3></div>
-            <form id="searchForm" class="search"><input id="searchQuery" placeholder="Termos da busca" /><button>Buscar</button></form>
-            <div id="searchResults" class="list"></div>
+
+          <form class="panel monitor-config-panel" id="monitorConfigForm">
+            <div class="monitor-config-heading"><span class="panel-label">Regras locais</span><h2>Coleta e limites</h2><p>Um alerta só aparece após leituras consecutivas acima do limite.</p></div>
+            <div class="monitor-config-selects">
+              <label for="monitorInterval"><span>Intervalo</span><select id="monitorInterval"><option value="5">5 segundos</option><option value="10">10 segundos</option><option value="15">15 segundos</option><option value="30">30 segundos</option><option value="60">1 minuto</option><option value="120">2 minutos</option><option value="300">5 minutos</option></select></label>
+              <label for="monitorConsecutive"><span>Confirmação</span><select id="monitorConsecutive"><option value="2">2 coletas</option><option value="3">3 coletas</option><option value="4">4 coletas</option><option value="5">5 coletas</option><option value="6">6 coletas</option><option value="7">7 coletas</option><option value="8">8 coletas</option><option value="9">9 coletas</option><option value="10">10 coletas</option></select></label>
+              <label for="monitorRetention"><span>Retenção</span><select id="monitorRetention"><option value="24">24 horas</option><option value="72">3 dias</option><option value="168">7 dias</option><option value="336">14 dias</option><option value="720">30 dias</option></select></label>
+            </div>
+            <div class="monitor-thresholds">
+              <div class="monitor-threshold-head"><span>Recurso</span><span>Atenção</span><span>Crítico</span></div>
+              <label><span>CPU</span><input id="monitorCpuWarning" type="number" min="50" max="98" step="1" /><input id="monitorCpuCritical" type="number" min="55" max="100" step="1" /></label>
+              <label><span>Memória</span><input id="monitorMemoryWarning" type="number" min="50" max="98" step="1" /><input id="monitorMemoryCritical" type="number" min="55" max="100" step="1" /></label>
+              <label><span>Disco</span><input id="monitorDiskWarning" type="number" min="50" max="98" step="1" /><input id="monitorDiskCritical" type="number" min="55" max="100" step="1" /></label>
+            </div>
+            <button class="button button-primary button-block" id="saveMonitorConfig" type="submit"><svg><use href="#icon-check"></use></svg> Salvar limites</button>
+            <p class="monitor-config-note">Configurações são aplicadas às próximas coletas. Nenhuma ação corretiva é executada.</p>
+          </form>
+        </div>
+
+        <section class="panel monitor-alert-panel" aria-labelledby="monitorAlertsTitle">
+          <div class="panel-header monitor-alert-heading">
+            <div><span class="panel-header-icon"><svg><use href="#icon-bell"></use></svg></span><div><h2 id="monitorAlertsTitle">Linha do tempo de alertas</h2><p id="monitorAlertsSummary">Nenhum alerta registrado</p></div></div>
+            <div class="panel-actions">
+              <button class="button button-ghost button-compact" id="exportMonitorData" type="button"><svg><use href="#icon-copy"></use></svg> Exportar JSON</button>
+              <button class="button button-ghost button-compact" id="acknowledgeAllAlerts" type="button"><svg><use href="#icon-check"></use></svg> Marcar como visto</button>
+              <button class="button button-ghost button-compact danger-text" id="clearMonitorHistory" type="button"><svg><use href="#icon-close"></use></svg> Limpar histórico</button>
+            </div>
+          </div>
+          <div class="monitor-alert-list" id="monitorAlertsList"><div class="empty-state"><span class="empty-icon"><svg><use href="#icon-bell"></use></svg></span><strong>Ambiente sem alertas</strong><p>Os eventos confirmados aparecerão aqui.</p></div></div>
+        </section>
+
+        <article class="panel monitor-safety-note"><span class="security-icon"><svg><use href="#icon-check"></use></svg></span><div><h2>Observação, não automação</h2><p>O HERMES registra somente métricas agregadas. Ele não lê arquivos, não captura pacotes, não encerra processos e não aplica correções automaticamente.</p></div></article>
+      </section>
+
+      <section class="view" id="view-incidents" data-view-panel="incidents" aria-labelledby="incidentsTitle" hidden>
+        <div class="page-heading">
+          <div><p class="eyebrow">Resposta local organizada</p><h1 id="incidentsTitle">Central de Incidentes</h1><p>Transforme alertas em uma investigação documentada, do snapshot à resolução.</p></div>
+          <div class="page-heading-actions">
+            <button class="button button-ghost" id="refreshIncidents" type="button"><svg><use href="#icon-refresh"></use></svg> Atualizar</button>
+            <button class="button button-primary" id="newIncident" type="button"><svg><use href="#icon-plus"></use></svg> Novo incidente</button>
+          </div>
+        </div>
+
+        <div class="incident-summary-grid">
+          <article class="panel incident-summary-card" data-tone="open"><span>Em aberto</span><strong id="incidentOpenCount">0</strong><small>Aguardando análise</small></article>
+          <article class="panel incident-summary-card" data-tone="investigating"><span>Investigando</span><strong id="incidentInvestigatingCount">0</strong><small>Com verificação ativa</small></article>
+          <article class="panel incident-summary-card" data-tone="critical"><span>Críticos ativos</span><strong id="incidentCriticalCount">0</strong><small>Prioridade elevada</small></article>
+          <article class="panel incident-summary-card" data-tone="resolved"><span>Resolvidos</span><strong id="incidentResolvedCount">0</strong><small>Histórico preservado</small></article>
+        </div>
+
+        <div class="incident-workbench">
+          <section class="panel incident-list-panel" aria-labelledby="incidentListTitle">
+            <div class="incident-list-heading">
+              <div><span class="panel-label">Fila local</span><h2 id="incidentListTitle">Incidentes registrados</h2></div>
+              <label for="incidentStatusFilter"><span class="sr-only">Filtrar estado</span><select id="incidentStatusFilter"><option value="">Todos</option><option value="open">Em aberto</option><option value="investigating">Investigando</option><option value="resolved">Resolvidos</option></select></label>
+            </div>
+            <div class="incident-list" id="incidentList"><div class="empty-state"><span class="empty-icon"><svg><use href="#icon-shield"></use></svg></span><strong>Nenhum incidente</strong><p>Abra um alerta do monitor ou registre uma observação manual.</p></div></div>
+          </section>
+
+          <section class="panel incident-detail" id="incidentDetail" aria-live="polite">
+            <div class="empty-state incident-detail-empty"><span class="empty-icon"><svg><use href="#icon-shield"></use></svg></span><strong>Selecione um incidente</strong><p>O snapshot, checklist e a linha do tempo aparecerão aqui.</p></div>
+          </section>
+        </div>
+
+        <article class="panel incident-safety-note"><span class="security-icon"><svg><use href="#icon-check"></use></svg></span><div><h2>Fluxo seguro e auditável</h2><p>Os checklists são somente leitura. A Central não encerra processos, não apaga arquivos e não altera configurações do Windows.</p></div></article>
+      </section>
+
+      <section class="view" id="view-diagnostics" data-view-panel="diagnostics" aria-labelledby="diagnosticsTitle" hidden>
+        <div class="page-heading">
+          <div><p class="eyebrow">Coleta autorizada</p><h1 id="diagnosticsTitle">Diagnósticos</h1><p>Escolha o escopo e acompanhe a verificação local.</p></div>
+          <button class="button button-ghost" id="refreshDiagnostics" type="button"><svg><use href="#icon-refresh"></use></svg> Atualizar dados</button>
+        </div>
+
+        <div class="diagnostic-options">
+          <article class="panel diagnostic-option">
+            <span class="option-icon"><svg><use href="#icon-cpu"></use></svg></span>
+            <div><span class="option-kicker">Rápido</span><h2>Sistema</h2><p>CPU, memória, armazenamento e informações do sistema operacional.</p></div>
+            <ul><li>Recursos do host</li><li>Limites de utilização</li><li>Relatório JSON local</li></ul>
+            <button class="button button-secondary" type="button" data-start-diagnostic="system">Executar sistema <svg><use href="#icon-arrow"></use></svg></button>
+          </article>
+          <article class="panel diagnostic-option is-featured">
+            <span class="recommended-tag">Recomendado</span>
+            <span class="option-icon"><svg><use href="#icon-network"></use></svg></span>
+            <div><span class="option-kicker">Infraestrutura</span><h2>Rede</h2><p>Interfaces, rotas, vizinhança ARP e teste da pilha TCP/IP.</p></div>
+            <ul><li>Configuração IP</li><li>Tabela de rotas</li><li>Conectividade local</li></ul>
+            <button class="button button-primary" type="button" data-start-diagnostic="network">Executar rede <svg><use href="#icon-arrow"></use></svg></button>
+          </article>
+          <article class="panel diagnostic-option">
+            <span class="option-icon"><svg><use href="#icon-scan"></use></svg></span>
+            <div><span class="option-kicker">Completo</span><h2>Sistema + Rede</h2><p>Combina as duas coletas e consolida os achados em um relatório.</p></div>
+            <ul><li>Inventário local</li><li>Diagnóstico de rede</li><li>Resumo de severidade</li></ul>
+            <button class="button button-secondary" type="button" data-start-diagnostic="full">Executar completo <svg><use href="#icon-arrow"></use></svg></button>
+          </article>
+        </div>
+
+        <article class="panel task-panel" id="taskPanel" hidden aria-live="polite">
+          <div class="task-head">
+            <div class="task-state-icon"><svg><use href="#icon-scan"></use></svg></div>
+            <div><span class="option-kicker">Tarefa em andamento</span><h2 id="taskTitle">Coletando diagnóstico</h2><p id="taskMessage">Executando verificações locais permitidas…</p></div>
+            <span class="task-timer" id="taskTimer">00:00</span>
+          </div>
+          <div class="progress-track"><span></span></div>
+        </article>
+
+        <article class="panel diagnostic-result" id="diagnosticResult" hidden>
+          <div class="panel-header">
+            <div><span class="panel-header-icon is-success"><svg><use href="#icon-check"></use></svg></span><h2>Diagnóstico concluído</h2></div>
+            <div class="panel-actions">
+              <button class="button button-secondary" id="analyzeGeneratedReport" type="button"><svg><use href="#icon-brain"></use></svg> Analisar com IA</button>
+              <button class="button button-ghost" id="planGeneratedReport" type="button"><svg><use href="#icon-check"></use></svg> Plano seguro</button>
+              <a class="button button-ghost" id="exportGeneratedHtml" href="#"><svg><use href="#icon-copy"></use></svg> Exportar HTML</a>
+              <button class="button button-ghost" id="viewGeneratedReport" type="button"><svg><use href="#icon-report"></use></svg> Abrir relatório</button>
+            </div>
+          </div>
+          <div class="result-stats" id="resultStats"></div>
+          <div class="finding-list" id="diagnosticFindings"></div>
+          <section class="ai-analysis-card" id="diagnosticAiAnalysis" hidden aria-live="polite"></section>
+          <section class="remediation-plan" id="diagnosticPlan" hidden aria-live="polite"></section>
+        </article>
+      </section>
+
+      <section class="view" id="view-assistant" data-view-panel="assistant" aria-labelledby="assistantTitle" hidden>
+        <div class="page-heading compact-heading">
+          <div><p class="eyebrow">Modelo GGUF local</p><h1 id="assistantTitle">Assistente IA</h1><p>Converse com o HERMES sem enviar dados para serviços externos.</p></div>
+          <div class="assistant-heading-tools">
+            <span class="runtime-profile" id="assistantProfileBadge">Perfil automático</span>
+            <button class="button button-ghost button-compact" id="clearChatHistory" type="button"><svg><use href="#icon-close"></use></svg> Limpar histórico</button>
+            <span class="status-pill is-checking" id="assistantModelStatus"><span class="status-dot"></span><span>Verificando modelo</span></span>
+          </div>
+        </div>
+
+        <div class="response-mode-bar panel" aria-label="Modo de resposta">
+          <div><span class="panel-label">Profundidade da resposta</span><strong id="responseModeTitle">Modo rápido</strong><small id="responseModeDescription">Menor espera para perguntas do dia a dia.</small></div>
+          <div class="segmented-control" role="group" aria-label="Selecionar profundidade">
+            <button class="is-active" type="button" data-response-mode="quick" aria-pressed="true">Rápido</button>
+            <button type="button" data-response-mode="deep" aria-pressed="false">Análise profunda</button>
+          </div>
+        </div>
+
+        <div class="assistant-layout">
+          <aside class="panel prompt-panel">
+            <span class="panel-label">Ações rápidas</span>
+            <button class="prompt-card" type="button" data-prompt="Monte um checklist seguro para troubleshooting de DNS."><strong>Diagnóstico DNS</strong><span>Checklist defensivo</span></button>
+            <button class="prompt-card" type="button" data-prompt="Explique como investigar uma falha de DHCP sem alterar o ambiente."><strong>Investigar DHCP</strong><span>Análise sem alterações</span></button>
+            <button class="prompt-card" type="button" data-prompt="Crie um modelo objetivo de relatório técnico de infraestrutura."><strong>Relatório técnico</strong><span>Estrutura profissional</span></button>
+            <div class="privacy-note"><strong>Privacidade local</strong><p>As mensagens são encaminhadas somente ao servidor configurado em localhost.</p></div>
+          </aside>
+
+          <section class="panel chat-panel">
+            <div class="chat-output" id="chatOutput" aria-live="polite">
+              <div class="message assistant" id="chatWelcome">
+                <div class="message-avatar">H</div>
+                <div class="message-body"><strong>HERMES</strong><p>Pronto para auxiliar no diagnóstico defensivo. Como posso ajudar?</p></div>
+              </div>
+            </div>
+            <form class="chat-composer" id="chatForm">
+              <label class="sr-only" for="message">Mensagem para o HERMES</label>
+              <textarea id="message" maxlength="8000" placeholder="Digite uma pergunta técnica…" rows="3"></textarea>
+              <div class="composer-actions"><span><kbd>Ctrl</kbd> + <kbd>Enter</kbd> para enviar</span><button class="button button-primary" type="submit"><span>Enviar</span><svg><use href="#icon-send"></use></svg></button></div>
+            </form>
           </section>
         </div>
       </section>
 
-      <section class="view" id="view-alerts">
-        <section class="stage">
-          <div class="section-head"><div><p class="eyebrow">Sem autocorreção</p><h3>Histórico de alertas</h3></div><button id="backupButton">Criar backup</button></div>
-          <div id="alertList" class="list"></div>
-        </section>
+      <section class="view" id="view-knowledge" data-view-panel="knowledge" aria-labelledby="knowledgeTitle" hidden>
+        <div class="page-heading">
+          <div><p class="eyebrow">Conhecimento privado</p><h1 id="knowledgeTitle">Base de Conhecimento Local</h1><p>Pesquise documentos e faça perguntas à IA com fontes verificáveis.</p></div>
+          <div class="page-heading-actions">
+            <input id="knowledgeFileInput" type="file" accept=".txt,.md,.json,.log,text/plain,text/markdown,application/json" multiple hidden />
+            <button class="button button-primary" id="openKnowledgeFiles" type="button"><svg><use href="#icon-upload"></use></svg> Importar arquivos</button>
+            <button class="button button-ghost" id="refreshKnowledge" type="button"><svg><use href="#icon-refresh"></use></svg> Atualizar</button>
+          </div>
+        </div>
+
+        <div class="knowledge-stats" aria-label="Resumo da base local">
+          <article class="panel knowledge-stat"><span class="knowledge-stat-icon"><svg><use href="#icon-report"></use></svg></span><div><span>Documentos</span><strong id="knowledgeDocumentsStat">0</strong></div></article>
+          <article class="panel knowledge-stat"><span class="knowledge-stat-icon"><svg><use href="#icon-folder"></use></svg></span><div><span>Coleções</span><strong id="knowledgeCollectionsStat">0</strong></div></article>
+          <article class="panel knowledge-stat"><span class="knowledge-stat-icon"><svg><use href="#icon-grid"></use></svg></span><div><span>Trechos indexados</span><strong id="knowledgeChunksStat">0</strong></div></article>
+          <article class="panel knowledge-stat knowledge-storage-stat"><span class="knowledge-stat-icon"><svg><use href="#icon-disk"></use></svg></span><div><span>Armazenamento local</span><strong id="knowledgeStorageStat">0 B</strong><small id="knowledgeEngine">SQLite local</small></div><div class="knowledge-capacity"><span id="knowledgeCapacityBar"></span></div></article>
+        </div>
+
+        <div class="knowledge-layout">
+          <aside class="panel knowledge-sidebar">
+            <div class="panel-header"><div><span class="panel-header-icon"><svg><use href="#icon-folder"></use></svg></span><h2>Coleções</h2></div></div>
+            <button class="knowledge-collection is-active" id="allKnowledgeCollection" type="button" data-knowledge-collection=""><span><svg><use href="#icon-grid"></use></svg>Todos os documentos</span><strong id="allKnowledgeCount">0</strong></button>
+            <div class="knowledge-collections-list" id="knowledgeCollectionsList"></div>
+            <form class="knowledge-collection-form" id="knowledgeCollectionForm">
+              <label for="knowledgeCollectionName">Nova coleção</label>
+              <div><input id="knowledgeCollectionName" maxlength="80" placeholder="Ex.: Rede ou Cliente A" required /><button class="icon-button" type="submit" title="Criar coleção" aria-label="Criar coleção"><svg><use href="#icon-plus"></use></svg></button></div>
+            </form>
+            <button class="text-button danger-text knowledge-clear" id="clearKnowledge" type="button"><svg><use href="#icon-close"></use></svg> Limpar toda a base</button>
+          </aside>
+
+          <div class="knowledge-main">
+            <section class="panel knowledge-query-panel">
+              <div class="knowledge-query-heading">
+                <div><span class="panel-label">Pesquisa com fontes</span><h2>Pergunte aos seus documentos</h2><p id="knowledgeQueryHint">Sem arquivos selecionados, a pesquisa usa toda a coleção ativa.</p></div>
+                <span class="knowledge-scope" id="knowledgeScopeLabel">Toda a base</span>
+              </div>
+              <form class="knowledge-query-form" id="knowledgeQueryForm">
+                <label class="sr-only" for="knowledgeQuery">Pergunta ou termo de pesquisa</label>
+                <textarea id="knowledgeQuery" maxlength="500" rows="2" placeholder="Ex.: Qual é o procedimento para investigar falhas de DNS?"></textarea>
+                <div class="knowledge-query-actions">
+                  <button class="button button-ghost" id="searchKnowledge" type="button"><svg><use href="#icon-search"></use></svg> Buscar sem IA</button>
+                  <button class="button button-primary" id="askKnowledge" type="submit"><svg><use href="#icon-brain"></use></svg> Perguntar à IA</button>
+                </div>
+              </form>
+              <div class="knowledge-results" id="knowledgeResults" hidden aria-live="polite"></div>
+            </section>
+
+            <section class="panel knowledge-sources-panel">
+              <div class="panel-header knowledge-sources-header"><div><span class="panel-header-icon"><svg><use href="#icon-knowledge"></use></svg></span><h2>Fontes locais</h2></div><div class="knowledge-selection-tools"><span id="knowledgeSelectionCount">0 selecionados</span><button class="text-button" id="clearKnowledgeSelection" type="button">Limpar seleção</button></div></div>
+
+              <div class="knowledge-import-area">
+                <button class="knowledge-dropzone" id="knowledgeDropzone" type="button">
+                  <span class="knowledge-drop-icon"><svg><use href="#icon-upload"></use></svg></span>
+                  <strong>Arraste arquivos ou clique para escolher</strong>
+                  <small>TXT, MD, JSON e LOG • até 2 MB por arquivo • destino: <b id="knowledgeImportTarget">Geral</b></small>
+                </button>
+                <div class="knowledge-report-import">
+                  <label for="knowledgeReportSelect"><span>Adicionar um relatório HERMES</span><select id="knowledgeReportSelect"><option value="">Selecione um relatório</option></select></label>
+                  <button class="button button-secondary" id="importKnowledgeReport" type="button" disabled><svg><use href="#icon-plus"></use></svg> Adicionar como fonte</button>
+                </div>
+                <div class="knowledge-upload-status" id="knowledgeUploadStatus" hidden></div>
+              </div>
+
+              <div class="knowledge-documents-list" id="knowledgeDocumentsList">
+                <div class="empty-state"><span class="empty-icon"><svg><use href="#icon-knowledge"></use></svg></span><strong>Nenhuma fonte importada</strong><p>Adicione documentos ou relatórios para começar a pesquisar.</p></div>
+              </div>
+            </section>
+          </div>
+        </div>
       </section>
-    </section>
-  </main>
+
+      <section class="view" id="view-reports" data-view-panel="reports" aria-labelledby="reportsTitle" hidden>
+        <div class="page-heading">
+          <div><p class="eyebrow">Evidências locais</p><h1 id="reportsTitle">Relatórios</h1><p>Consulte os diagnósticos armazenados na pasta portátil.</p></div>
+          <button class="button button-ghost" id="refreshReports" type="button"><svg><use href="#icon-refresh"></use></svg> Atualizar lista</button>
+        </div>
+
+        <section class="panel comparison-workbench" aria-labelledby="comparisonTitle">
+          <div class="comparison-heading">
+            <div>
+              <span class="panel-label">Diagnóstico inteligente</span>
+              <h2 id="comparisonTitle">Comparar evolução</h2>
+              <p>Veja o que surgiu, foi resolvido, melhorou ou piorou entre duas coletas.</p>
+            </div>
+            <span class="comparison-version">NOVO • 0.4</span>
+          </div>
+          <div class="comparison-controls">
+            <label class="comparison-field" for="baselineReportSelect"><span>Relatório de referência</span><select id="baselineReportSelect"><option value="">Selecione um relatório</option></select></label>
+            <span class="comparison-arrow" aria-hidden="true"><svg><use href="#icon-arrow"></use></svg></span>
+            <label class="comparison-field" for="currentReportSelect"><span>Relatório atual</span><select id="currentReportSelect"><option value="">Selecione um relatório</option></select></label>
+            <div class="comparison-actions">
+              <button class="button button-ghost" id="saveBaselineReport" type="button"><svg><use href="#icon-report"></use></svg> Fixar referência</button>
+              <button class="button button-primary" id="runReportComparison" type="button"><svg><use href="#icon-scan"></use></svg> Comparar</button>
+              <button class="button button-secondary" id="analyzeReportComparison" type="button" disabled><svg><use href="#icon-brain"></use></svg> Interpretar com IA</button>
+            </div>
+          </div>
+          <p class="comparison-help" id="comparisonHelp">São necessários pelo menos dois relatórios. A comparação principal funciona sem IA.</p>
+          <div class="comparison-result" id="comparisonResult" hidden aria-live="polite"></div>
+        </section>
+
+        <div class="reports-layout">
+          <section class="panel reports-list-panel">
+            <div class="panel-header"><div><span class="panel-header-icon"><svg><use href="#icon-report"></use></svg></span><h2>Histórico</h2></div><span class="muted-value" id="reportsTotal">0 arquivos</span></div>
+            <div class="reports-list" id="reportsList"><div class="empty-state"><span class="empty-icon"><svg><use href="#icon-report"></use></svg></span><strong>Nenhum relatório encontrado</strong><p>Os próximos diagnósticos aparecerão aqui.</p></div></div>
+          </section>
+
+          <section class="panel report-preview" id="reportPreview">
+            <div class="empty-state"><span class="empty-icon"><svg><use href="#icon-report"></use></svg></span><strong>Selecione um relatório</strong><p>Os achados e evidências serão exibidos neste painel.</p></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="view-settings" data-view-panel="settings" aria-labelledby="settingsTitle" hidden>
+        <div class="page-heading">
+          <div><p class="eyebrow">Otimização local</p><h1 id="settingsTitle">Configurações</h1><p>Perfis de IA ajustados automaticamente ao hardware deste computador.</p></div>
+        </div>
+
+        <div class="settings-grid settings-summary-grid">
+          <article class="panel settings-card">
+            <span class="settings-icon"><svg><use href="#icon-brain"></use></svg></span>
+            <div><span class="panel-label">Servidor de IA</span><h2>llama.cpp</h2></div>
+            <dl class="settings-list"><div><dt>Estado</dt><dd id="settingsLlamaState">Verificando</dd></div><div><dt>Modelo ativo</dt><dd id="settingsActiveModel">—</dd></div><div><dt>Endpoint</dt><dd id="settingsLlamaUrl">—</dd></div></dl>
+          </article>
+          <article class="panel settings-card">
+            <span class="settings-icon"><svg><use href="#icon-cpu"></use></svg></span>
+            <div><span class="panel-label">Hardware detectado</span><h2 id="settingsCpuName">Processador</h2></div>
+            <dl class="settings-list"><div><dt>Núcleos</dt><dd id="settingsCores">—</dd></div><div><dt>Memória</dt><dd id="settingsRam">—</dd></div><div><dt>Vídeo</dt><dd id="settingsGraphics">—</dd></div></dl>
+          </article>
+          <article class="panel settings-card">
+            <span class="settings-icon"><svg><use href="#icon-terminal"></use></svg></span>
+            <div><span class="panel-label">Aplicação</span><h2>HERMES local</h2></div>
+            <dl class="settings-list"><div><dt>Endereço</dt><dd id="settingsWebUrl">—</dd></div><div><dt>Versão</dt><dd id="settingsVersion">—</dd></div><div><dt>Telemetria</dt><dd id="settingsMetricsState">Verificando</dd></div></dl>
+          </article>
+        </div>
+
+        <form class="panel ai-configuration" id="settingsForm">
+          <div class="configuration-heading">
+            <div><span class="panel-label">Perfil de desempenho</span><h2>Escolha do modelo local</h2><p id="profileRecommendation">Analisando o hardware…</p></div>
+            <span class="recommended-profile" id="recommendedProfileBadge">Recomendação automática</span>
+          </div>
+
+          <div class="profile-selector" id="profileSelector">
+            <label class="profile-choice">
+              <input type="radio" name="profile" value="auto" checked />
+              <span class="profile-check"></span>
+              <span class="profile-name"><strong>Automático</strong><small>Usa a melhor opção instalada para o hardware</small></span>
+              <span class="profile-state is-ready">Recomendado</span>
+            </label>
+            <label class="profile-choice" data-profile-card="fast">
+              <input type="radio" name="profile" value="fast" />
+              <span class="profile-check"></span>
+              <span class="profile-name"><strong>Rápido</strong><small>Qwen3 1.7B Q8_0 • menor consumo</small></span>
+              <span class="profile-state" data-profile-status="fast">Verificando</span>
+            </label>
+            <label class="profile-choice" data-profile-card="balanced">
+              <input type="radio" name="profile" value="balanced" />
+              <span class="profile-check"></span>
+              <span class="profile-name"><strong>Balanceado</strong><small>Qwen3 4B Q4_K_M • uso diário</small></span>
+              <span class="profile-state" data-profile-status="balanced">Verificando</span>
+            </label>
+            <label class="profile-choice" data-profile-card="quality">
+              <input type="radio" name="profile" value="quality" />
+              <span class="profile-check"></span>
+              <span class="profile-name"><strong>Qualidade</strong><small>Qwen3 8B Q4_K_M • mais lento</small></span>
+              <span class="profile-state" data-profile-status="quality">Verificando</span>
+            </label>
+          </div>
+
+          <section class="model-manager" aria-labelledby="modelManagerTitle">
+            <div class="model-manager-heading">
+              <div><span class="panel-label">Gerenciador local</span><h3 id="modelManagerTitle">Baixar e trocar modelos</h3><p>O arquivo fica na pasta portátil e pode continuar de onde parou.</p></div>
+              <span class="model-manager-state" id="modelManagerState">Verificando modelos…</span>
+            </div>
+            <div class="model-download-actions">
+              <button class="button button-ghost" type="button" data-download-profile="fast">Baixar Rápido</button>
+              <button class="button button-secondary" type="button" data-download-profile="balanced">Baixar Balanceado</button>
+              <button class="button button-ghost" type="button" data-download-profile="quality">Baixar Qualidade</button>
+            </div>
+            <div class="download-progress" id="downloadProgress" hidden>
+              <div class="download-progress-copy"><strong id="downloadTitle">Preparando download…</strong><span id="downloadNumbers">—</span></div>
+              <div class="progress-track model-progress"><span id="downloadProgressBar"></span></div>
+              <div class="download-progress-footer"><small id="downloadMessage">Aguardando…</small><button class="text-button danger-text" id="cancelModelDownload" type="button">Pausar download</button></div>
+            </div>
+          </section>
+
+          <div class="tuning-grid">
+            <label><span>Modo padrão</span><select id="defaultMode" name="default_mode"><option value="quick">Rápido</option><option value="deep">Análise profunda</option></select><small>Pode ser alterado a cada pergunta.</small></label>
+            <label><span>Contexto</span><select id="contextSize" name="context_size"><option value="2048">2.048 tokens</option><option value="4096">4.096 tokens</option><option value="8192">8.192 tokens</option></select><small>4.096 é o ideal para 16 GB.</small></label>
+            <label><span>Threads da CPU</span><input id="threads" name="threads" type="number" min="0" max="128" step="1" value="0" /><small>Use 0 para detectar automaticamente.</small></label>
+            <label><span>Camadas na GPU</span><input id="gpuLayers" name="gpu_layers" type="number" min="0" max="999" step="1" value="0" /><small>Deixe 0 em vídeo integrado.</small></label>
+          </div>
+
+          <div class="configuration-actions">
+            <p id="runtimeSummary">Carregando configuração ativa…</p>
+            <button class="button button-primary" id="saveSettings" type="submit"><svg><use href="#icon-check"></use></svg> Salvar configurações</button>
+          </div>
+        </form>
+
+        <article class="panel benchmark-panel">
+          <div class="benchmark-icon"><svg><use href="#icon-cpu"></use></svg></div>
+          <div class="benchmark-copy"><span class="panel-label">Calibração local</span><h2>Teste de desempenho</h2><p id="benchmarkDescription">Com a IA online, mede a velocidade real em tokens por segundo. Sem modelo, avalia CPU e memória.</p><div class="benchmark-result" id="benchmarkResult" hidden><strong id="benchmarkValue">—</strong><span id="benchmarkGrade">—</span><small id="benchmarkDetails">—</small></div></div>
+          <button class="button button-secondary" id="runBenchmark" type="button"><svg><use href="#icon-refresh"></use></svg><span>Testar agora</span></button>
+        </article>
+
+        <article class="panel backup-panel">
+          <div class="backup-icon"><svg><use href="#icon-download"></use></svg></div>
+          <div class="backup-copy"><span class="panel-label">Portabilidade dos dados</span><h2>Backup e restauração</h2><p>Exporte configurações, históricos, incidentes, Base Local e relatórios. Modelos e executáveis não entram no ZIP.</p><small id="backupStatus">A restauração valida todos os arquivos antes de substituir dados locais.</small></div>
+          <div class="backup-actions"><button class="button button-secondary" id="exportBackup" type="button"><svg><use href="#icon-download"></use></svg> Exportar backup</button><button class="button button-ghost" id="importBackup" type="button"><svg><use href="#icon-upload"></use></svg> Restaurar ZIP</button><input id="backupFileInput" type="file" accept=".zip,application/zip" hidden /></div>
+        </article>
+
+        <article class="panel security-banner">
+          <span class="security-icon"><svg><use href="#icon-check"></use></svg></span>
+          <div><h2>Execução local protegida</h2><p>O servidor responde apenas em <code>127.0.0.1</code>. Mudanças de modelo, contexto, threads ou GPU entram em vigor após reiniciar o HERMES.</p></div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+  <dialog class="knowledge-dialog" id="knowledgePreviewDialog">
+    <div class="knowledge-dialog-header"><div><span class="panel-label" id="knowledgePreviewCollection">Fonte local</span><h2 id="knowledgePreviewTitle">Documento</h2><p id="knowledgePreviewMeta">—</p></div><button class="icon-button" id="closeKnowledgePreview" type="button" aria-label="Fechar visualização"><svg><use href="#icon-close"></use></svg></button></div>
+    <pre id="knowledgePreviewContent"></pre>
+    <p class="knowledge-preview-note" id="knowledgePreviewNote" hidden>Visualização limitada aos primeiros 20.000 caracteres.</p>
+  </dialog>
+  <dialog class="incident-create-dialog" id="incidentCreateDialog">
+    <form id="incidentCreateForm">
+      <div class="incident-dialog-heading"><div><span class="panel-label">Registro manual</span><h2>Novo incidente</h2><p>Use para documentar uma observação que ainda não veio do monitor.</p></div><button class="icon-button" id="closeIncidentDialog" type="button" aria-label="Fechar"><svg><use href="#icon-close"></use></svg></button></div>
+      <label for="incidentTitle"><span>Título</span><input id="incidentTitle" maxlength="180" required placeholder="Ex.: uso incomum de memória" /></label>
+      <label for="incidentSeverity"><span>Severidade</span><select id="incidentSeverity"><option value="attention">Atenção</option><option value="critical">Crítico</option><option value="normal">Informativo</option></select></label>
+      <label for="incidentDescription"><span>Descrição</span><textarea id="incidentDescription" maxlength="8000" rows="5" placeholder="Contexto conhecido, horário e observações…"></textarea></label>
+      <div class="incident-dialog-actions"><button class="button button-ghost" id="cancelIncident" type="button">Cancelar</button><button class="button button-primary" id="saveIncident" type="submit"><svg><use href="#icon-check"></use></svg> Criar incidente</button></div>
+    </form>
+  </dialog>
   <script src="./assets/app.js"></script>
 </body>
 </html>

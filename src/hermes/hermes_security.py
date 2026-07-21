@@ -7,11 +7,17 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+try:
+    from .hermes_paths import APP_DIR as BASE_DIR, REPORT_DIR
+except ImportError:
+    from hermes_paths import APP_DIR as BASE_DIR, REPORT_DIR
+
 APP_NAME = "HERMES Security Portable"
-LLAMA_SERVER_URL = os.getenv("HERMES_LLAMACPP_URL", "http://127.0.0.1:8080/completion")
-BASE_DIR = Path(__file__).resolve().parents[2]
-REPORT_DIR = BASE_DIR / "reports"
-REPORT_DIR.mkdir(exist_ok=True)
+LLAMA_SERVER_URL = os.getenv(
+    "HERMES_LLAMACPP_URL",
+    "http://127.0.0.1:8080/v1/chat/completions",
+)
+REPORT_DIR.mkdir(parents=True, exist_ok=True)
 
 def now() -> str:
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -25,8 +31,20 @@ def safe_run(command: list[str], timeout: int = 25) -> dict[str, Any]:
     except subprocess.TimeoutExpired:
         return {"command": command, "returncode": 124, "stdout": "", "stderr": f"Timeout após {timeout}s"}
 
-def ask_llama(prompt: str, max_tokens: int = 450) -> str:
-    payload = {"prompt": prompt, "n_predict": max_tokens, "temperature": 0.3, "stop": ["</s>", "hermes>"]}
+def ask_llama(prompt: str, max_tokens: int = 450, mode: str = "quick") -> str:
+    mode_switch = "/think" if mode == "deep" else "/no_think"
+    payload = {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Você é o HERMES, assistente local de infraestrutura e segurança defensiva. Responda em português do Brasil.",
+            },
+            {"role": "user", "content": f"{prompt}\n\n{mode_switch}"},
+        ],
+        "max_tokens": max_tokens,
+        "temperature": 0.4 if mode == "quick" else 0.6,
+        "stream": False,
+    }
     req = urllib.request.Request(
         LLAMA_SERVER_URL,
         data=json.dumps(payload).encode("utf-8"),
@@ -37,6 +55,10 @@ def ask_llama(prompt: str, max_tokens: int = 450) -> str:
         with urllib.request.urlopen(req, timeout=90) as response:
             raw = response.read().decode("utf-8", errors="replace")
             parsed = json.loads(raw)
+            choices = parsed.get("choices") or []
+            if choices:
+                message = choices[0].get("message") or {}
+                return message.get("content") or choices[0].get("text") or raw
             return parsed.get("content") or parsed.get("response") or raw
     except urllib.error.URLError as exc:
         return f"Não consegui conectar no llama.cpp server. Inicie scripts\\\\windows\\\\01-iniciar-servidor-ia.bat\\nErro: {exc}"
@@ -122,7 +144,7 @@ def main() -> None:
             data = {"system": system_info(), "network": network_diagnostics()}
             print("Salvo em:", save_report("full-diagnostic", data))
             prompt = "Analise este diagnóstico e gere próximos passos defensivos:\\n" + json.dumps(data, ensure_ascii=False)[:7000]
-            print(ask_llama(prompt))
+            print(ask_llama(prompt, max_tokens=900, mode="deep"))
         else:
             print("Comando desconhecido. Digite 'ajuda'.")
 

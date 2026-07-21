@@ -1,0 +1,7 @@
+{
+  "profile": "auto",
+  "default_mode": "quick",
+  "context_size": 4096,
+  "threads": 0,
+  "gpu_layers": 0
+}

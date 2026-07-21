@@ -5,6 +5,7 @@ venv/
 build/
 dist/
 *.spec
+!HERMES-Portable.spec
 .pytest_cache/
 logs/*
 !logs/.gitkeep
@@ -16,9 +17,9 @@ backups/*
 !backups/.gitkeep
 config/runtime.json
 models/*.gguf
+models/*.part
 models/*.bin
 models/*.safetensors
-models/*.part
 tools/**/*.exe
 tools/**/*.dll
 .env

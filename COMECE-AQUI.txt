@@ -1,0 +1,77 @@
+HERMES SECURITY PORTABLE 0.8.0
+================================
+
+PRIMEIRO USO NO WINDOWS
+
+1. Extraia TODO o conteudo do arquivo ZIP.
+2. Execute INSTALAR-HERMES.bat.
+3. Execute CONFIGURAR-IA.bat e escolha o perfil desejado.
+4. Depois execute INICIAR-HERMES.bat.
+5. A interface abrira em http://127.0.0.1:8765.
+
+O primeiro passo requer Python 3.10 ou superior e acesso a internet para
+instalar a telemetria local. O HERMES cria o ambiente isolado .venv dentro
+da propria pasta; ele nao altera seus projetos Python existentes.
+
+SEM MODELO DE IA
+
+O dashboard, a telemetria, os diagnosticos, os relatorios e a pesquisa na
+Base Local funcionam sem modelo. Conversas e respostas fundamentadas por IA
+permanecerao offline ate o servidor do modelo ser iniciado.
+
+COM MODELO DE IA LOCAL
+
+CONFIGURAR-IA.bat oferece uma instalacao guiada do llama.cpp e dos modelos
+Qwen3 oficiais. Para um notebook com Ryzen 5, video integrado e 16 GB, use o
+perfil Balanceado. O pacote nao inclui esses arquivos grandes.
+
+OTIMIZACAO AUTOMATICA
+
+O HERMES detecta memoria e nucleos fisicos, usa 4.096 tokens de contexto e
+mantem a GPU integrada desativada por padrao. Esses valores podem ser alterados
+em Configuracoes. Reinicie o programa depois de mudar o perfil de execucao.
+
+RECURSOS DA 0.8.0
+
+- Abra incidentes a partir dos alertas ou crie um registro manual.
+- Use estados, checklist somente de leitura, notas e linha do tempo.
+- Exporte o incidente em HTML ou PDF e ative avisos opcionais do Windows.
+- Crie e restaure backups em Configuracoes; modelos e executaveis ficam de fora.
+
+- Abra Monitoramento e clique em Iniciar monitoramento quando quiser coletar.
+- Acompanhe CPU, memoria, disco e taxas agregadas de rede em tempo real.
+- Ajuste intervalo, retencao e limites de atencao ou critico.
+- Alertas exigem varias coletas consecutivas para reduzir falsos positivos.
+- Marque alertas como vistos, acompanhe resolucoes e exporte a janela em JSON.
+- O monitor nunca encerra processos, captura pacotes ou executa correcoes.
+- Importe TXT, MD, JSON e LOG no menu Base Local.
+- Organize as fontes em colecoes e selecione documentos especificos.
+- Use Buscar sem IA para pesquisar completamente offline.
+- Use Perguntar a IA para obter respostas com fontes numeradas.
+- Adicione relatorios HERMES diretamente como fontes locais.
+- Visualize, exclua ou limpe a base pela propria interface.
+- Compare dois relatorios e veja alertas novos, resolvidos, piores e melhores.
+- Fixe um relatorio como referencia para acompanhar a evolucao.
+- Monte um plano seguro com prioridades, verificacao e comandos de leitura.
+- Use Interpretar com IA para obter uma explicacao local da comparacao.
+- Baixe ou continue modelos diretamente em Configuracoes.
+- Use Analisar com IA depois de gerar ou abrir um relatorio.
+- Exporte relatorios em HTML para abrir em qualquer navegador.
+- O historico do chat e o ultimo benchmark ficam somente na pasta data.
+
+O HERMES nunca executa os comandos sugeridos pelo plano. Eles aparecem apenas
+para revisao e copia, identificados como SOMENTE LEITURA.
+
+A Base Local fica em data\hermes-knowledge.db. Ela nao possui criptografia;
+proteja a pasta e limpe a base antes de compartilhar o HERMES.
+
+O historico do monitor fica em data\hermes-monitor.db e tambem nao possui
+criptografia. Use Limpar historico antes de compartilhar a pasta portatil.
+
+Os incidentes ficam em data\hermes-incidents.db. O backup ZIP tambem nao possui
+criptografia; proteja os dois como relatorios tecnicos.
+
+SEGURANCA
+
+O servidor web usa 127.0.0.1 e fica acessivel somente neste computador.
+Use os diagnosticos apenas em equipamentos e ambientes autorizados.

@@ -1,0 +1,40 @@
+HERMES SECURITY PORTABLE 0.8.0 — WINDOWS 10/11 64 BITS
+======================================================
+
+COMO TESTAR EM OUTRO COMPUTADOR
+
+1. Extraia o ZIP inteiro para uma pasta comum, como Documentos\HERMES.
+2. Execute HERMES-Security-Portable-0.8.0.exe.
+3. Aguarde o navegador abrir em http://127.0.0.1:8765.
+4. Para encerrar, feche a janela preta do HERMES ou pressione CTRL+C nela.
+
+Não é necessário instalar Python. O executável já inclui o interpretador, a
+interface e o suporte de métricas. Ele não precisa de internet para monitorar,
+registrar incidentes, gerar relatórios ou restaurar backups.
+
+AVISO DO WINDOWS
+
+Esta versão de teste não possui assinatura digital comercial. O Microsoft
+Defender SmartScreen pode mostrar “O Windows protegeu o computador”. Confira
+que o arquivo veio do pacote oficial de teste e valide o SHA-256 fornecido.
+Se decidir continuar, use “Mais informações” > “Executar assim mesmo”.
+
+PASTAS PORTÁTEIS
+
+config   configurações
+data     histórico, incidentes e Base Local
+models   modelos GGUF opcionais (não vêm no pacote)
+reports  relatórios gerados
+tools    llama.cpp opcional
+
+MODO SEM IA
+
+Todo o monitor, diagnósticos, incidentes, PDF/HTML e backup funcionam sem
+modelo. Para habilitar a IA, coloque o modelo GGUF em models e o llama-server
+em tools\llama.cpp conforme CONFIGURAR-IA-LOCAL.txt da distribuição completa.
+
+PRIVACIDADE
+
+O painel responde somente em 127.0.0.1. O monitor registra percentuais de CPU,
+memória e disco e taxas agregadas de rede. Ele não captura pacotes, não lê
+arquivos e não encerra processos.

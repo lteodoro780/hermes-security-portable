@@ -1,0 +1,46 @@
+CONFIGURAR IA LOCAL NO HERMES 0.8.0
+===================================
+
+O dashboard funciona sem estes arquivos. Para habilitar o Assistente IA:
+
+METODO RECOMENDADO
+
+1. Execute CONFIGURAR-IA.bat.
+2. Autorize a instalacao do llama.cpp pelo WinGet, se ele ainda estiver ausente.
+3. Escolha um perfil. Para 16 GB, escolha Balanceado.
+4. Aguarde o download e execute INICIAR-HERMES.bat.
+
+PERFIS
+
+- Rapido: Qwen3-1.7B-Q8_0.gguf, aproximadamente 1,83 GB.
+- Balanceado: Qwen3-4B-Q4_K_M.gguf, aproximadamente 2,50 GB.
+- Qualidade: Qwen3-8B-Q4_K_M.gguf, aproximadamente 5,03 GB.
+
+METODO MANUAL
+
+1. Obtenha uma compilacao do llama.cpp para Windows ou use:
+
+   winget install llama.cpp
+
+2. Se usar os binarios portateis, copie todos para:
+
+   tools\llama.cpp\
+
+3. Confirme que este arquivo existe:
+
+   tools\llama.cpp\llama-server.exe
+
+4. Obtenha um modelo GGUF oficial e copie para a pasta models mantendo o nome.
+   O modo legado models\model.gguf continua aceito.
+
+5. Execute novamente INICIAR-HERMES.bat.
+
+O HERMES iniciara o servidor em 127.0.0.1:8080 e mostrara "IA local online"
+na barra superior quando a conexao estiver pronta.
+
+IMPORTANTE
+
+- Confira a licenca e a origem antes de baixar qualquer modelo.
+- Nao use modelos maiores do que a memoria disponivel no notebook.
+- Em video integrado, mantenha Camadas na GPU em 0 inicialmente.
+- Os diagnosticos locais continuam disponiveis se a IA estiver offline.
