@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
-      TARGET_SHA: 0066082d1588e4c71cfe26a0dc65120119611b83
+      TARGET_SHA: 83f4bbff7535c57bc07ac2319dd9c8103c16d420
       RELEASE_TAG: v0.8.0
       ARCHIVE: HERMES-Security-Portable-0.8.0-Source.zip
 
