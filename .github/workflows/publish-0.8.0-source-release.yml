@@ -1,0 +1,76 @@
+name: Publish HERMES 0.8.0 source release
+
+on:
+  push:
+    branches:
+      - automation/release-0.8.0
+
+permissions:
+  contents: write
+
+jobs:
+  publish-source-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      TARGET_SHA: 0066082d1588e4c71cfe26a0dc65120119611b83
+      RELEASE_TAG: v0.8.0
+      ARCHIVE: HERMES-Security-Portable-0.8.0-Source.zip
+
+    steps:
+      - name: Baixar o repositório
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Montar ZIP limpo da versão 0.8.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          git cat-file -e "${TARGET_SHA}^{commit}"
+          mkdir -p release
+          git archive \
+            --format=zip \
+            --prefix=HERMES-Security-Portable-0.8.0/ \
+            --output="release/${ARCHIVE}" \
+            "${TARGET_SHA}"
+
+          if unzip -Z1 "release/${ARCHIVE}" | grep -Eiq '\\.exe$'; then
+            echo "Erro: o pacote contém arquivo .exe."
+            exit 1
+          fi
+
+          unzip -tq "release/${ARCHIVE}"
+          sha256sum "release/${ARCHIVE}" > release/SHA256SUMS-0.8.0.txt
+
+      - name: Criar a Release 0.8.0
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          cat > release-notes.md <<'EOF'
+          ## HERMES Security Portable 0.8.0
+
+          Versão 0.8.0 distribuída como código-fonte compactado em ZIP, sem executável `.exe` pré-compilado.
+
+          Principais recursos:
+
+          - painel Cybergrid local;
+          - monitoramento contínuo;
+          - central de incidentes;
+          - base de conhecimento local;
+          - perfis de modelos de IA;
+          - backup portátil;
+          - execução offline com modelo local.
+
+          O arquivo principal desta Release é `HERMES-Security-Portable-0.8.0-Source.zip`.
+          EOF
+
+          gh release create "${RELEASE_TAG}" \
+            "release/${ARCHIVE}#HERMES 0.8.0 - código-fonte em ZIP" \
+            "release/SHA256SUMS-0.8.0.txt#SHA-256 do pacote" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --target "${TARGET_SHA}" \
+            --title "HERMES Security Portable 0.8.0" \
+            --notes-file release-notes.md
