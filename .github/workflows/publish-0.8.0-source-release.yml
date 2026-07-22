@@ -14,6 +14,7 @@ jobs:
     timeout-minutes: 10
     env:
       TARGET_SHA: 83f4bbff7535c57bc07ac2319dd9c8103c16d420
+      TARGET_REF: release/0.8.0-source
       RELEASE_TAG: v0.8.0
       ARCHIVE: HERMES-Security-Portable-0.8.0-Source.zip
 
@@ -71,6 +72,6 @@ jobs:
             "release/${ARCHIVE}#HERMES 0.8.0 - código-fonte em ZIP" \
             "release/SHA256SUMS-0.8.0.txt#SHA-256 do pacote" \
             --repo "${GITHUB_REPOSITORY}" \
-            --target "${TARGET_SHA}" \
+            --target "${TARGET_REF}" \
             --title "HERMES Security Portable 0.8.0" \
             --notes-file release-notes.md
