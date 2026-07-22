@@ -2,6 +2,20 @@
 
 Assistente portátil de IA local para diagnóstico defensivo de infraestrutura, suporte técnico e uso offline.
 
+## Novidades da versão 0.9.0
+
+- aplicativo desktop nativo, sem abrir navegador ou iniciar servidor HTTP;
+- navegação própria para visão geral, diagnósticos, monitor, incidentes, IA, modelos e backup;
+- assistente de primeira configuração com recomendação baseada no hardware;
+- seleção de qualquer modelo `.gguf` compatível;
+- opção de usar o modelo no local atual ou copiá-lo para a pasta portátil;
+- validação do cabeçalho e cópia atômica antes de ativar um modelo;
+- localização e controle de `llama-server.exe` ou `llama.exe` pela interface;
+- download dos modelos oficiais sugeridos sem sair do programa;
+- executável sem console, com teste nativo do Qt no Windows.
+
+Consulte [`docs/DESKTOP-NATIVO-0.9.0.md`](docs/DESKTOP-NATIVO-0.9.0.md).
+
 ## Novidades da versão 0.8.0
 
 - transforma alertas do monitor em incidentes vinculados, sem duplicar registros ativos;
@@ -83,13 +97,13 @@ Consulte [`docs/BASE-DE-CONHECIMENTO.md`](docs/BASE-DE-CONHECIMENTO.md) para o f
 - oferece dashboard SOC local com métricas, alertas e histórico;
 - pode ser empacotado em `.exe` com PyInstaller.
 
-## Primeiro uso no Windows com o executável
+## Primeiro uso no Windows com o executável desktop
 
-1. Extraia o pacote `HERMES-Security-Portable-0.8.0-Windows-x64.zip`.
-2. Execute `HERMES-Security-Portable-0.8.0.exe`.
-3. Aguarde o painel abrir em `http://127.0.0.1:8765`.
+1. Extraia o pacote `HERMES-Security-Portable-0.9.0-Windows-x64.zip`.
+2. Execute `HERMES-Security-Portable-0.9.0.exe`.
+3. Conclua o assistente inicial ou continue sem IA.
 
-O `.exe` já inclui Python, `psutil` e a interface. O modelo GGUF continua opcional e não é incluído por ocupar vários gigabytes.
+O `.exe` já inclui Python, `psutil`, Qt/PySide6 e a interface. O modelo GGUF continua opcional e não é incluído por ocupar vários gigabytes.
 
 ## Primeiro uso pelo código-fonte
 
@@ -98,7 +112,7 @@ O `.exe` já inclui Python, `psutil` e a interface. O modelo GGUF continua opcio
 3. Execute `CONFIGURAR-IA.bat` e escolha o perfil Balanceado.
 4. Execute `INICIAR-HERMES.bat`.
 
-O dashboard abre em `http://127.0.0.1:8765`. Os diagnósticos funcionam mesmo antes de instalar o modelo.
+A janela desktop abre diretamente. Os diagnósticos funcionam mesmo antes de instalar o modelo.
 
 ## Perfis disponíveis
 
@@ -110,7 +124,7 @@ O dashboard abre em `http://127.0.0.1:8765`. Os diagnósticos funcionam mesmo an
 
 Os modelos são baixados da [organização oficial Qwen](https://huggingface.co/Qwen) e não estão incluídos no ZIP.
 
-## Interface Web 0.8.0
+## Recursos preservados da interface 0.8.0
 
 - visão geral com CPU, memória, disco e atividade de rede;
 - monitoramento contínuo autorizado, gráfico histórico e estado da coleta;

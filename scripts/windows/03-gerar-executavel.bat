@@ -7,9 +7,9 @@ python -m unittest discover -s tests -v || goto :erro
 python -m PyInstaller --noconfirm --clean HERMES-Portable.spec || goto :erro
 echo.
 echo Executavel criado em:
-echo dist\HERMES-Security-Portable-0.8.0.exe
+echo dist\HERMES-Security-Portable-0.9.0.exe
 echo.
-echo Ele inclui Python, psutil e a interface Web. Modelos GGUF nao sao incluidos.
+echo Ele inclui Python, psutil e a interface desktop. Modelos GGUF nao sao incluidos.
 pause
 exit /b 0
 

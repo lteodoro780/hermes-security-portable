@@ -1,14 +1,14 @@
-CONFIGURAR IA LOCAL NO HERMES 0.8.0
+CONFIGURAR IA LOCAL NO HERMES 0.9.0 DESKTOP
 ===================================
 
-O dashboard funciona sem estes arquivos. Para habilitar o Assistente IA:
+A janela desktop funciona sem estes arquivos. Para habilitar o Assistente IA:
 
 METODO RECOMENDADO
 
-1. Execute CONFIGURAR-IA.bat.
-2. Autorize a instalacao do llama.cpp pelo WinGet, se ele ainda estiver ausente.
-3. Escolha um perfil. Para 16 GB, escolha Balanceado.
-4. Aguarde o download e execute INICIAR-HERMES.bat.
+1. Abra a secao Modelos no HERMES.
+2. Selecione qualquer arquivo .gguf ou escolha um perfil para baixar.
+3. Localize llama-server.exe ou llama.exe.
+4. Clique em Iniciar IA.
 
 PERFIS
 
@@ -30,13 +30,12 @@ METODO MANUAL
 
    tools\llama.cpp\llama-server.exe
 
-4. Obtenha um modelo GGUF oficial e copie para a pasta models mantendo o nome.
-   O modo legado models\model.gguf continua aceito.
+4. Obtenha um modelo GGUF e selecione-o na secao Modelos. O HERMES pode usar
+   o arquivo no local atual ou copia-lo para a pasta models depois de validar.
 
 5. Execute novamente INICIAR-HERMES.bat.
 
-O HERMES iniciara o servidor em 127.0.0.1:8080 e mostrara "IA local online"
-na barra superior quando a conexao estiver pronta.
+O HERMES controlara o motor local e mostrara "IA ativa" quando ele estiver pronto.
 
 IMPORTANTE
 

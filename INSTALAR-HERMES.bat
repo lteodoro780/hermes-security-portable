@@ -4,7 +4,7 @@ cd /d "%~dp0"
 title HERMES Security Portable - Instalacao
 
 echo ================================================================
-echo HERMES Security Portable 0.8.0
+echo HERMES Security Portable 0.9.0 Desktop
 echo Preparacao do ambiente local
 echo ================================================================
 echo.
@@ -51,12 +51,12 @@ if not exist ".venv\Scripts\python.exe" (
 echo [2/4] Atualizando o instalador de pacotes...
 ".venv\Scripts\python.exe" -m pip install --disable-pip-version-check --upgrade pip
 
-echo [3/4] Instalando telemetria local...
+echo [3/4] Instalando interface desktop e telemetria local...
 ".venv\Scripts\python.exe" -m pip install --disable-pip-version-check -r requirements-runtime.txt
 if errorlevel 1 (
   echo.
   echo [AVISO] A telemetria nao foi instalada.
-  echo O dashboard ainda abre, mas CPU, memoria, disco e rede podem aparecer indisponiveis.
+  echo A instalacao da interface nao foi concluida. Revise sua conexao e tente novamente.
 ) else (
   echo.
   echo [OK] Ambiente preparado com sucesso.

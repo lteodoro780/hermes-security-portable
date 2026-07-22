@@ -122,7 +122,7 @@ def show_hardware_summary(selection: dict[str, Any]) -> None:
     hardware = selection["hardware"]
     profile = selection["profile"]
     print("=" * 72)
-    print("HERMES Security Portable 0.8.0 — incidentes e monitoramento local")
+    print("HERMES Security Portable 0.9.0 — desktop nativo e IA local")
     print(f"CPU: {hardware['cpu_name']}")
     print(
         f"Memória: {hardware['memory_total_gb']} GB | "

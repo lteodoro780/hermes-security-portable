@@ -2,10 +2,10 @@ HERMES Security Portable
 
 1) Extraia todo o arquivo ZIP.
 2) Execute INSTALAR-HERMES.bat.
-3) Execute CONFIGURAR-IA.bat e escolha o perfil Balanceado.
-4) Execute INICIAR-HERMES.bat.
+3) Execute INICIAR-HERMES.bat.
+4) Configure o perfil Balanceado na secao Modelos quando desejar usar IA.
 
-A interface estará em http://127.0.0.1:8765.
+A interface abrira como uma janela desktop, sem navegador.
 Ela funciona em modo diagnostico mesmo sem modelo de IA.
 
 Para habilitar o chat local, use CONFIGURAR-IA.bat ou leia CONFIGURAR-IA-LOCAL.txt.
@@ -23,7 +23,10 @@ Comandos dentro do HERMES:
 
 PERFIL RECOMENDADO PARA 16 GB: Balanceado, Qwen3 4B Q4_K_M.
 
-NA INTERFACE 0.8.0:
+NA INTERFACE 0.9.0:
+- Janela desktop nativa, sem servidor HTTP e sem console.
+- Qualquer modelo GGUF pode ser selecionado e validado pela secao Modelos.
+- O llama.cpp pode ser localizado, iniciado e parado pelo programa.
 - Central de Incidentes vincula alertas, snapshot, checklist e linha do tempo.
 - Incidentes podem ser exportados em HTML/PDF e analisados pela IA local.
 - Avisos do Windows sao opcionais e exigem permissao.

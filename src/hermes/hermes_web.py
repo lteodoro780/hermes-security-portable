@@ -62,7 +62,7 @@ except ImportError:  # A interface continua funcional, mas sem telemetria detalh
 
 
 APP_NAME = "HERMES Security Portable"
-APP_VERSION = "0.8.0"
+APP_VERSION = "0.9.0"
 HOST = os.getenv("HERMES_WEB_HOST", "127.0.0.1")
 PORT = int(os.getenv("HERMES_WEB_PORT", "8765"))
 LLAMA_URL = os.getenv(

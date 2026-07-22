@@ -20,7 +20,7 @@ except ImportError:
     from hermes_paths import CONFIG_DIR, DATA_DIR, REPORT_DIR
 
 
-APP_VERSION = "0.8.0"
+APP_VERSION = "0.9.0"
 MAX_BACKUP_BYTES = 96 * 1024 * 1024
 MAX_ARCHIVE_FILES = 600
 DATABASE_NAMES = {

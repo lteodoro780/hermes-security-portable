@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.9.0
+
+- substituição da abertura no navegador por uma janela desktop PySide6;
+- navegação nativa por todos os módulos principais;
+- assistente de primeira configuração;
+- importação validada de modelos GGUF personalizados;
+- cópia atômica opcional para a pasta portátil;
+- seleção do executável do `llama.cpp` e controle do processo;
+- downloads de modelos integrados à tela desktop;
+- novo build Windows sem console e sem servidor HTTP;
+- teste automatizado das nove telas em modo Qt offscreen.
+
 ## 0.8.0
 
 - nova Central de Incidentes local em `data/hermes-incidents.db`;

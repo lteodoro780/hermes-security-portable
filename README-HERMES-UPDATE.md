@@ -1,8 +1,13 @@
-# Atualização HERMES Web UI 0.8.0
+# Atualização HERMES Desktop 0.9.0
 
 Principais melhorias:
 
 ```text
+Janela desktop nativa em Qt/PySide6
+Execução sem navegador ou servidor HTTP
+Importação de qualquer modelo GGUF válido
+Seleção e controle do llama.cpp pela interface
+Assistente de primeira configuração
 Dashboard SOC responsivo
 Telemetria local de CPU, memória, disco e rede
 Diagnósticos estruturados de sistema e rede

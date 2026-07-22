@@ -47,6 +47,7 @@ DATA_DIR = APP_DIR / "data"
 REPORT_DIR = APP_DIR / "reports"
 MODELS_DIR = APP_DIR / "models"
 TOOLS_DIR = APP_DIR / "tools"
+LOG_DIR = APP_DIR / "logs"
 
 
 def ensure_runtime_directories() -> dict[str, Path]:
@@ -58,6 +59,7 @@ def ensure_runtime_directories() -> dict[str, Path]:
         "reports": REPORT_DIR,
         "models": MODELS_DIR,
         "tools": TOOLS_DIR,
+        "logs": LOG_DIR,
     }
     for directory in directories.values():
         directory.mkdir(parents=True, exist_ok=True)
@@ -74,4 +76,6 @@ def runtime_path_payload() -> dict[str, Any]:
         "data_dir": str(DATA_DIR),
         "reports_dir": str(REPORT_DIR),
         "models_dir": str(MODELS_DIR),
+        "tools_dir": str(TOOLS_DIR),
+        "logs_dir": str(LOG_DIR),
     }

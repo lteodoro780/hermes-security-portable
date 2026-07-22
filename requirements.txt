@@ -1,2 +1,3 @@
 pyinstaller
 psutil
+PySide6-Essentials>=6.8,<7

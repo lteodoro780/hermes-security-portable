@@ -68,7 +68,15 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "context_size": 4096,
     "threads": 0,
     "gpu_layers": 0,
+    "custom_model_path": "",
+    "llama_path": "",
+    "setup_completed": False,
 }
+
+
+def _safe_path(value: Any) -> str:
+    path = str(value or "").strip().replace("\x00", "")
+    return path[:4096]
 
 
 def _bounded_int(value: Any, default: int, minimum: int, maximum: int) -> int:
@@ -82,7 +90,7 @@ def _bounded_int(value: Any, default: int, minimum: int, maximum: int) -> int:
 def normalize_config(raw: dict[str, Any] | None) -> dict[str, Any]:
     data = {**DEFAULT_CONFIG, **(raw or {})}
     profile = str(data.get("profile", "auto")).lower()
-    if profile not in {"auto", *PROFILE_ORDER}:
+    if profile not in {"auto", "custom", *PROFILE_ORDER}:
         profile = "auto"
     mode = str(data.get("default_mode", "quick")).lower()
     if mode not in {"quick", "deep"}:
@@ -96,6 +104,9 @@ def normalize_config(raw: dict[str, Any] | None) -> dict[str, Any]:
         "context_size": context_size,
         "threads": _bounded_int(data.get("threads"), 0, 0, 128),
         "gpu_layers": _bounded_int(data.get("gpu_layers"), 0, 0, 999),
+        "custom_model_path": _safe_path(data.get("custom_model_path")),
+        "llama_path": _safe_path(data.get("llama_path")),
+        "setup_completed": bool(data.get("setup_completed", False)),
     }
 
 
@@ -275,6 +286,27 @@ def resolve_profile(
     detected = hardware or hardware_info()
     recommended = recommended_profile_id(detected)
     wanted = recommended if settings["profile"] == "auto" else settings["profile"]
+    requested = settings["profile"]
+
+    if wanted == "custom":
+        custom_path = Path(settings.get("custom_model_path") or "")
+        if is_valid_gguf(custom_path):
+            return {
+                "id": "custom",
+                "label": "Personalizado",
+                "model": custom_path.stem,
+                "model_file": custom_path.name,
+                "model_path": str(custom_path.resolve()),
+                "description": "Modelo GGUF escolhido pelo usuário.",
+                "best_for": "Uso local personalizado",
+                "approx_size": f"{custom_path.stat().st_size / (1024**3):.2f} GB",
+                "source_url": "",
+                "download_url": "",
+                "installed": True,
+                "fallback": False,
+                "requested_profile": requested,
+            }
+        wanted = recommended
 
     candidates = [wanted, "balanced", "fast", "quality"]
     seen: set[str] = set()
@@ -284,8 +316,8 @@ def resolve_profile(
         seen.add(candidate)
         profile = _profile_with_state(candidate)
         if profile["installed"]:
-            profile["fallback"] = candidate != wanted
-            profile["requested_profile"] = settings["profile"]
+            profile["fallback"] = candidate != wanted or requested == "custom"
+            profile["requested_profile"] = requested
             return profile
 
     legacy_model = MODELS_DIR / "model.gguf"
@@ -303,23 +335,32 @@ def resolve_profile(
             "download_url": "",
             "installed": True,
             "fallback": True,
-            "requested_profile": settings["profile"],
+            "requested_profile": requested,
         }
 
     profile = _profile_with_state(wanted)
     profile["fallback"] = False
-    profile["requested_profile"] = settings["profile"]
+    profile["requested_profile"] = requested
     return profile
 
 
-def find_llama_command() -> dict[str, str] | None:
+def find_llama_command(config: dict[str, Any] | None = None) -> dict[str, str] | None:
+    settings = normalize_config(config or load_config())
+    custom = Path(settings.get("llama_path") or "")
+    if custom.is_file():
+        style = "unified" if custom.stem.lower() == "llama" else "server"
+        return {"executable": str(custom.resolve()), "style": style, "source": "selected"}
+
     portable_candidates = (
         TOOLS_DIR / "llama.cpp" / "llama-server.exe",
         TOOLS_DIR / "llama.cpp" / "llama-server",
+        TOOLS_DIR / "llama.cpp" / "llama.exe",
+        TOOLS_DIR / "llama.cpp" / "llama",
     )
     for candidate in portable_candidates:
         if candidate.is_file():
-            return {"executable": str(candidate), "style": "server", "source": "portable"}
+            style = "unified" if candidate.stem.lower() == "llama" else "server"
+            return {"executable": str(candidate), "style": style, "source": "portable"}
 
     server = shutil.which("llama-server") or shutil.which("llama-server.exe")
     if server:
@@ -335,7 +376,7 @@ def runtime_selection() -> dict[str, Any]:
     hardware = hardware_info()
     recommended = recommended_profile_id(hardware)
     profile = resolve_profile(settings, hardware)
-    llama = find_llama_command()
+    llama = find_llama_command(settings)
     threads = settings["threads"] or hardware["recommended_threads"]
     return {
         "config": settings,

@@ -1,10 +1,10 @@
 @echo off
 setlocal EnableExtensions
 cd /d "%~dp0"
-title HERMES 0.8.0 - Configuracao da IA local
+title HERMES 0.9.0 - Configuracao da IA local
 
 echo ================================================================
-echo HERMES Security Portable 0.8.0
+echo HERMES Security Portable 0.9.0
 echo Assistente para instalar llama.cpp e um modelo Qwen3 oficial
 echo ================================================================
 echo.

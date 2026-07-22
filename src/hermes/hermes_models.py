@@ -107,7 +107,7 @@ def _download_worker(profile_id: str) -> None:
     partial = Path(str(target) + ".part")
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
     existing = partial.stat().st_size if partial.is_file() else 0
-    headers = {"User-Agent": "HERMES-Security-Portable/0.8.0"}
+    headers = {"User-Agent": "HERMES-Security-Portable/0.9.0"}
     if existing:
         headers["Range"] = f"bytes={existing}-"
     request = urllib.request.Request(definition["download_url"], headers=headers)

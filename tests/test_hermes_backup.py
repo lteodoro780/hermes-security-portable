@@ -50,7 +50,7 @@ class BackupTests(unittest.TestCase):
         self.assertIn("config/hermes.json", names)
         self.assertIn("reports/sample.json", names)
         self.assertNotIn("models", " ".join(names))
-        self.assertEqual(manifest["app_version"], "0.8.0")
+        self.assertEqual(manifest["app_version"], "0.9.0")
         self.assertTrue(database.startswith(b"SQLite format 3"))
 
     def test_restore_validates_then_replaces_allowed_files(self) -> None:

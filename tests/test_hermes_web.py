@@ -184,7 +184,7 @@ class HttpApiTests(unittest.TestCase):
                 csp = response.headers["Content-Security-Policy"]
 
         self.assertTrue(data["ok"])
-        self.assertEqual(data["version"], "0.8.0")
+        self.assertEqual(data["version"], "0.9.0")
         self.assertFalse(data["llama_online"])
         self.assertIn("frame-ancestors 'none'", csp)
 

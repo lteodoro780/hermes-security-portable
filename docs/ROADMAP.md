@@ -85,6 +85,18 @@
 - executável portátil único para Windows 10/11 x64;
 - pacote de teste externo com hash SHA-256.
 
+## 0.9.0
+
+- interface desktop nativa em Qt/PySide6;
+- execução sem navegador, servidor HTTP ou console;
+- assistente de configuração inicial;
+- importação segura de qualquer modelo GGUF;
+- uso do modelo no local atual ou cópia para a pasta portátil;
+- download de modelos sugeridos dentro do programa;
+- seleção, início e parada do `llama.cpp` pela interface;
+- telas nativas para diagnósticos, monitor, incidentes, IA e backup;
+- smoke test do executável desktop em Windows x64.
+
 ## Próximos passos
 
 - suporte opcional a PDF na Base Local;

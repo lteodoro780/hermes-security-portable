@@ -1,5 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
-"""PyInstaller one-file para Windows 10/11 x64."""
+"""PyInstaller one-file da interface desktop para Windows 10/11 x64."""
 
 from pathlib import Path
 
@@ -9,6 +9,8 @@ SOURCE = ROOT / "src" / "hermes"
 
 hiddenimports = [
     "hermes_backup",
+    "hermes_desktop",
+    "hermes_desktop_core",
     "hermes_history",
     "hermes_incidents",
     "hermes_intelligence",
@@ -20,14 +22,17 @@ hiddenimports = [
     "hermes_profiles",
     "hermes_security",
     "hermes_web",
+    "PySide6.QtCore",
+    "PySide6.QtGui",
+    "PySide6.QtWidgets",
     "psutil",
 ]
 
 a = Analysis(
-    [str(SOURCE / "hermes_launcher.py")],
+    [str(SOURCE / "hermes_desktop.py")],
     pathex=[str(SOURCE)],
     binaries=[],
-    datas=[(str(ROOT / "web"), "web")],
+    datas=[],
     hiddenimports=hiddenimports,
     hookspath=[],
     hooksconfig={},
@@ -44,14 +49,14 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name="HERMES-Security-Portable-0.8.0",
+    name="HERMES-Security-Portable-0.9.0",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=True,
+    console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,

@@ -1,21 +1,21 @@
-HERMES SECURITY PORTABLE 0.8.0
+HERMES SECURITY PORTABLE 0.9.0 DESKTOP
 ================================
 
 PRIMEIRO USO NO WINDOWS
 
 1. Extraia TODO o conteudo do arquivo ZIP.
 2. Execute INSTALAR-HERMES.bat.
-3. Execute CONFIGURAR-IA.bat e escolha o perfil desejado.
-4. Depois execute INICIAR-HERMES.bat.
-5. A interface abrira em http://127.0.0.1:8765.
+3. Depois execute INICIAR-HERMES.bat.
+4. A janela desktop abrira diretamente, sem navegador.
+5. Configure a IA na secao Modelos quando desejar.
 
 O primeiro passo requer Python 3.10 ou superior e acesso a internet para
-instalar a telemetria local. O HERMES cria o ambiente isolado .venv dentro
+instalar a interface Qt e a telemetria local. O HERMES cria o ambiente isolado .venv dentro
 da propria pasta; ele nao altera seus projetos Python existentes.
 
 SEM MODELO DE IA
 
-O dashboard, a telemetria, os diagnosticos, os relatorios e a pesquisa na
+O aplicativo, a telemetria, os diagnosticos, os relatorios e a pesquisa na
 Base Local funcionam sem modelo. Conversas e respostas fundamentadas por IA
 permanecerao offline ate o servidor do modelo ser iniciado.
 
@@ -31,7 +31,13 @@ O HERMES detecta memoria e nucleos fisicos, usa 4.096 tokens de contexto e
 mantem a GPU integrada desativada por padrao. Esses valores podem ser alterados
 em Configuracoes. Reinicie o programa depois de mudar o perfil de execucao.
 
-RECURSOS DA 0.8.0
+RECURSOS DA 0.9.0
+
+- Use o HERMES em uma janela propria, sem navegador e sem servidor HTTP.
+- Adicione qualquer modelo GGUF pela secao Modelos.
+- Use o modelo no local atual ou copie-o com validacao para a pasta models.
+- Localize e controle llama-server.exe diretamente na interface.
+- Baixe os modelos sugeridos sem sair do programa.
 
 - Abra incidentes a partir dos alertas ou crie um registro manual.
 - Use estados, checklist somente de leitura, notas e linha do tempo.
@@ -73,5 +79,5 @@ criptografia; proteja os dois como relatorios tecnicos.
 
 SEGURANCA
 
-O servidor web usa 127.0.0.1 e fica acessivel somente neste computador.
+A interface desktop chama os modulos locais diretamente e nao abre porta HTTP.
 Use os diagnosticos apenas em equipamentos e ambientes autorizados.

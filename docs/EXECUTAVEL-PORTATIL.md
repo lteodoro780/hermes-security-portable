@@ -1,6 +1,6 @@
-# Executável portátil do Windows
+# Executável desktop portátil do Windows
 
-O artefato `HERMES-Security-Portable-0.8.0.exe` é compilado em um runner Windows x64 com PyInstaller. Ele inclui Python 3.11, `psutil`, o backend e a interface web. A máquina externa não precisa ter Python instalado.
+O artefato `HERMES-Security-Portable-0.9.0.exe` é compilado em um runner Windows x64 com PyInstaller. Ele inclui Python 3.11, `psutil`, Qt/PySide6, o backend e a interface desktop. A máquina externa não precisa ter Python instalado e o programa não abre navegador.
 
 ## O que vem no pacote
 
@@ -17,14 +17,14 @@ Modelos GGUF e `llama.cpp` não são incorporados. Eles são opcionais, têm vá
 2. Confira o SHA-256 do `.exe`:
 
    ```powershell
-   Get-FileHash .\HERMES-Security-Portable-0.8.0.exe -Algorithm SHA256
+   Get-FileHash .\HERMES-Security-Portable-0.9.0.exe -Algorithm SHA256
    ```
 
 3. Compare o resultado com `SHA256SUMS.txt`.
 4. Extraia todos os arquivos para uma pasta gravável, como `Documentos\HERMES`.
-5. Execute o `.exe` e aguarde a abertura de `http://127.0.0.1:8765`.
+5. Execute o `.exe` e aguarde a janela desktop abrir.
 6. Teste **Visão Geral**, **Monitoramento**, **Incidentes**, exportação PDF e backup.
-7. Encerre com `CTRL+C` na janela do HERMES ou feche a janela.
+7. Encerre fechando a janela do HERMES.
 
 Evite executar diretamente dentro do ZIP, de `Arquivos de Programas` ou de uma pasta sem permissão de gravação.
 
@@ -34,7 +34,7 @@ Esta compilação de teste não possui certificado comercial. Por isso o SmartSc
 
 ## Regra de caminhos
 
-Em execução congelada, os arquivos da interface são extraídos internamente pelo PyInstaller. Todo conteúdo do usuário é gravado ao lado do `.exe`:
+Em execução congelada, os módulos da interface são extraídos internamente pelo PyInstaller. Todo conteúdo do usuário é gravado ao lado do `.exe`:
 
 | Pasta | Conteúdo |
 | --- | --- |
@@ -54,4 +54,4 @@ No Windows com Python instalado:
 scripts\windows\03-gerar-executavel.bat
 ```
 
-O arquivo `HERMES-Portable.spec` define recursos, módulos e nome do executável. O workflow `Windows Portable EXE` executa testes Python e JavaScript, inicia o `.exe` com `--web-only`, consulta `/api/health` e só então publica o pacote.
+O arquivo `HERMES-Portable.spec` define módulos e nome do executável. O workflow `Windows Portable EXE` executa os testes, inicia o `.exe` com `--smoke-test` usando Qt em modo offscreen, confirma a criação das oito telas sem abrir porta local e só então publica o pacote.

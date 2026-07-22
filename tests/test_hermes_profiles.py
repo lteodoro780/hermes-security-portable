@@ -36,6 +36,29 @@ class ProfileConfigurationTests(unittest.TestCase):
         recommended = hermes_profiles.recommended_profile_id({"memory_total_gb": 16.0})
         self.assertEqual(recommended, "balanced")
 
+    def test_custom_model_is_resolved_when_valid(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            model = Path(temp_dir) / "custom.gguf"
+            model.write_bytes(b"GGUF" + b"local")
+            selected = hermes_profiles.resolve_profile(
+                {"profile": "custom", "custom_model_path": str(model)},
+                {"memory_total_gb": 16.0},
+            )
+
+        self.assertEqual(selected["id"], "custom")
+        self.assertTrue(selected["installed"])
+        self.assertEqual(selected["model_file"], "custom.gguf")
+
+    def test_selected_llama_executable_is_preferred(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            executable = Path(temp_dir) / "llama-server.exe"
+            executable.write_bytes(b"test")
+            found = hermes_profiles.find_llama_command({"llama_path": str(executable)})
+
+        self.assertIsNotNone(found)
+        self.assertEqual(found["source"], "selected")
+        self.assertEqual(found["style"], "server")
+
     def test_resolve_profile_uses_installed_fallback(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             models = Path(temp_dir)
