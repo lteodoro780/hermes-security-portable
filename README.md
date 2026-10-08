@@ -1,5 +1,7 @@
 # HERMES Security Portable 0.7.0
 
+[![CI](https://github.com/lteodoro780/hermes-security-portable/actions/workflows/ci.yml/badge.svg)](https://github.com/lteodoro780/hermes-security-portable/actions/workflows/ci.yml)
+
 Assistente portátil de IA local para diagnóstico defensivo de infraestrutura, suporte técnico e uso offline.
 
 ## Recursos
